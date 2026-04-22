@@ -1,0 +1,17 @@
+{
+  "name": "Daje - Habit Tracker",
+  "short_name": "Daje",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#EEF2FF",
+  "theme_color": "#6366F1",
+  "description": "Gamification per abitudini e obiettivi.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
