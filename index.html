@@ -22,7 +22,7 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('SW registrato con successo!'))
+          .then(reg => console.log('SW registrato!'))
           .catch(err => console.log('Errore SW', err));
       });
     }
@@ -30,10 +30,7 @@
 
 <style>
 :root {
-  --bg: #EEF2FF;
-  --surface: #FFFFFF;
-  --surface2: #F1F5F9;
-  --border: #E2E8F0;
+  --bg: #EEF2FF; --surface: #FFFFFF; --surface2: #F1F5F9; --border: #E2E8F0;
   --green: #10B981; --green-lt: #D1FAE5; --green-dk: #047857;
   --red: #F43F5E;  --red-lt: #FFE4E9;  --red-dk: #BE123C;
   --indigo: #6366F1; --indigo-lt: #EEF2FF; --indigo-dk: #4338CA;
@@ -43,12 +40,10 @@
   --sh-sm: 0 1px 4px rgba(15,23,42,.07),0 1px 2px rgba(15,23,42,.04);
   --sh-md: 0 4px 14px rgba(15,23,42,.09),0 2px 6px rgba(15,23,42,.05);
   --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 28px;
-  --nav: 85px; 
-  --hdr: 64px;
+  --nav: 85px; --hdr: 64px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
-
 input, select, textarea { font-size: 16px !important; -webkit-user-select: text !important; user-select: text !important; pointer-events: auto !important; }
 
 #app{display:flex;flex-direction:column;height:100%;max-width:430px;margin:0 auto;background:var(--bg);position:relative}
@@ -64,15 +59,26 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .score-pill.bump{animation:scoreBump .35s cubic-bezier(.34,1.56,.64,1)}
 @keyframes scoreBump{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
 
-/* SCROLL AREA CON PADDING INFERIORE AMPIO */
+/* SCROLL AREA */
 #content-area{ flex: 1; overflow-y: auto; overflow-x: hidden; padding-top: calc(var(--hdr) + env(safe-area-inset-top)); padding-bottom: calc(var(--nav) + 110px); -webkit-overflow-scrolling: touch; }
 #content-area::-webkit-scrollbar{display:none}
-
 .page{display:none}
 .page.active{display:block;animation:pgIn .22s ease}
 #page-path.active { display: flex; flex-direction: column; } 
 @keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .page-content{padding:18px 18px 0}
+
+/* SUB PAGES (IMPOSTAZIONI) */
+.sub-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; transform: translateX(100%); transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
+.sub-page.open { transform: translateX(0); }
+.sub-hdr { height: calc(var(--hdr) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 20px 0; display: flex; align-items: center; gap: 15px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.sub-hdr button { background: none; border: none; cursor: pointer; color: var(--indigo); display: flex; align-items: center; justify-content: center; padding: 5px; }
+.sub-hdr span { font-weight: 700; font-size: 17px; color: var(--txt); }
+.sub-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: calc(var(--nav) + 20px); }
+.menu-btn { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; font-family: 'Plus Jakarta Sans'; font-size: 15px; font-weight: 700; color: var(--txt); cursor: pointer; box-shadow: var(--sh-sm); transition: transform 0.1s; }
+.menu-btn:active { transform: scale(0.97); }
+.menu-btn svg { width: 22px; height: 22px; color: var(--indigo); }
+.menu-btn i.arr { margin-left: auto; color: var(--txt3); }
 
 /* BOTTOM NAV */
 #bottom-nav{ position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px; background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:space-around; align-items:center; height:calc(var(--nav) + env(safe-area-inset-bottom, 0px)); padding-bottom:env(safe-area-inset-bottom, 10px); z-index:100;box-shadow:0 -4px 20px rgba(15,23,42,.07) }
@@ -121,10 +127,10 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .inner-tab-content{display:none}
 .inner-tab-content.active{display:block}
 
-.month-sel{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-radius:var(--r-md);padding:12px 14px;margin-bottom:14px;border:1px solid var(--border);box-shadow:var(--sh-sm)}
-.mnav{width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.mnav svg{width:16px;height:16px;stroke-width:2;color:var(--txt2)}
-.mlabel{font-size:14px;font-weight:700;color:var(--txt)}
+.date-sel{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-radius:var(--r-md);padding:12px 14px;margin-bottom:14px;border:1px solid var(--border);box-shadow:var(--sh-sm)}
+.dnav{width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.dnav svg{width:16px;height:16px;stroke-width:2;color:var(--txt2)}
+.dlabel{font-size:14px;font-weight:700;color:var(--txt)}
 
 .goal-item{display:flex;align-items:center;gap:11px;background:var(--surface);border-radius:var(--r-md);padding:13px 14px;margin-bottom:9px;border:1px solid var(--border);box-shadow:var(--sh-sm);}
 .goal-item.completed{opacity:.6;background:var(--surface2)}
@@ -136,9 +142,9 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .g-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .g-pts{font-size:11px;font-weight:600;color:var(--txt3);margin-top:2px}
 .g-actions{display:flex;align-items:center;gap:5px;flex-shrink:0}
-.g-btn {width:30px;height:30px;border-radius:8px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt2)}
-.g-btn svg {width:18px;height:18px;stroke-width:2}
-.g-btn.del {color:var(--red);}
+.g-btn {width:30px;height:30px;border-radius:8px;border:none;background:var(--surface2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--txt2)}
+.g-btn svg {width:16px;height:16px;stroke-width:2}
+.g-btn.del {color:var(--red); background:var(--red-lt);}
 .lock-badge,.active-badge{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:4px 9px;border-radius:50px;white-space:nowrap}
 .lock-badge{background:var(--surface2);color:var(--txt3)}
 .active-badge{background:var(--green-lt);color:var(--green-dk)}
@@ -153,21 +159,38 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .btn-add.indigo{background:var(--indigo);color:#fff}
 .btn-add.green{background:var(--green);color:#fff}
 .btn-add.sky{background:var(--sky);color:#fff}
+.btn-add.red{background:var(--red);color:#fff}
+.btn-sec, .btn-danger { width:100%; height:46px; border-radius:var(--r-sm); font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; font-family:'Plus Jakarta Sans'; margin-top:10px; font-size: 14px; border:none;}
+.btn-danger { background:var(--red-lt); color:var(--red-dk); }
+.btn-sec { background:transparent; border:1px solid var(--border); color:var(--txt); }
 
 /* PERCORSO */
 .path-scroll { flex:1; overflow-y:auto; padding: 18px 18px 40px; }
 .path-tl{position:relative;padding-left:48px; display:flex; flex-direction:column-reverse; margin-top: 10px;}
-.path-tl::before{content:'';position:absolute;left:22px;top:16px;bottom:16px;width:2px;background:linear-gradient(to bottom,rgba(99,102,241,.12),var(--indigo));border-radius:2px}
+.path-tl::before{content:'';position:absolute;left:22px;top:16px;bottom:16px;width:2px;background:var(--border);border-radius:2px}
 .path-node{position:relative;margin-bottom:20px}
 .pn-dot{position:absolute;left:-38px;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:var(--surface);border:2.5px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all .3s;z-index:1}
 .pn-dot svg{width:15px;height:15px;color:var(--txt3);stroke-width:2}
-.path-node.unlocked .pn-dot{background:linear-gradient(135deg,var(--indigo),var(--sky));border-color:transparent;box-shadow:0 0 0 5px rgba(99,102,241,.15)}
-.path-node.unlocked .pn-dot svg{color:#fff}
 .pn-card{background:var(--surface);border-radius:var(--r-md);padding:14px 15px;border:1.5px solid var(--border);box-shadow:var(--sh-sm);display:flex;align-items:center;justify-content:space-between;gap:10px;transition:all .3s}
-.path-node.unlocked .pn-card{border-color:rgba(99,102,241,.3);background:linear-gradient(135deg,var(--indigo-lt),#F0FDF4)}
 .pn-name{font-size:14px;font-weight:700;color:var(--txt)}
-.path-node.unlocked .pn-name{color:var(--indigo-dk)}
 .pn-pts{font-size:12px;font-weight:500;color:var(--txt3);margin-top:2px}
+.pn-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+/* Sblocchi Positivi */
+.path-node.unlocked.positive .pn-dot { background:linear-gradient(135deg,var(--indigo),var(--sky)); border-color:transparent; box-shadow:0 0 0 5px rgba(99,102,241,.15) }
+.path-node.unlocked.positive .pn-dot svg { color:#fff }
+.path-node.unlocked.positive .pn-card { border-color:rgba(99,102,241,.3); background:linear-gradient(135deg,var(--indigo-lt),#F0FDF4) }
+.path-node.unlocked.positive .pn-name { color:var(--indigo-dk) }
+
+/* Sblocchi Negativi */
+.path-node.unlocked.negative .pn-dot { background:linear-gradient(135deg,var(--red),var(--amber)); border-color:transparent; box-shadow:0 0 0 5px rgba(244,63,94,.15) }
+.path-node.unlocked.negative .pn-dot svg { color:#fff }
+.path-node.unlocked.negative .pn-card { border-color:rgba(244,63,94,.3); background:linear-gradient(135deg,var(--red-lt),#FFF1F2) }
+.path-node.unlocked.negative .pn-name { color:var(--red-dk) }
+
+/* Sblocco Neutro (Zero) */
+.path-node.unlocked.zero .pn-dot { background:var(--txt2); border-color:transparent; }
+.path-node.unlocked.zero .pn-dot svg { color:#fff }
 
 /* STATS */
 .stats-hero{background:linear-gradient(140deg,#0F172A 0%,#1E293B 55%,#1a2044 100%);border-radius:var(--r-xl);padding:28px 24px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden}
@@ -181,21 +204,12 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .chart-title{font-size:14px;font-weight:700;}
 .chart-wrap{position:relative;height:200px;display:flex;justify-content:center; align-items:center;}
 
-/* SETTINGS (PULITE E LEGGERE) */
-.sett-details { background: transparent; border: none; margin-bottom: 0; }
-.sett-summary { padding: 18px 0; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; color: var(--txt); border-bottom: 1px solid var(--border); }
-.sett-summary::-webkit-details-marker { display: none; }
-.sett-summary svg { width: 20px; height: 20px; }
-.sett-content { padding: 10px 0 20px; }
-.sett-item { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); gap:8px;}
-.sett-item:last-child { border-bottom: none; }
+/* SETTINGS ITEMS */
+.sett-item { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); margin-bottom:8px; gap:8px;}
 .badge{font-size:12px;font-weight:700;padding:4px 8px;border-radius:8px;}
 .badge.pos{background:var(--green-lt);color:var(--green-dk)}
 .badge.neg{background:var(--red-lt);color:var(--red-dk)}
-
-.btn-sec, .btn-danger { width:100%; height:46px; border-radius:var(--r-sm); font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; font-family:'Plus Jakarta Sans'; margin-top:10px; font-size: 14px;}
-.btn-danger { background:var(--red-lt); color:var(--red-dk); border:none; }
-.btn-sec { background:transparent; border:1px solid var(--border); color:var(--txt); }
+.badge.neu{background:var(--surface2);color:var(--txt2)}
 
 /* EMOJI PICKER GRIGLIA */
 .emoji-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 5px 0 15px; margin-bottom: 5px; scrollbar-width: none; }
@@ -237,7 +251,7 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 
     <div class="page active" id="page-habits">
       <div class="page-content">
-        <div class="sec-hdr">
+        <div class="sec-hdr" style="margin-top:4px">
           <div class="sec-icon green"><i data-lucide="trophy"></i></div>
           <span class="sec-title">Traguardi (Positive)</span>
         </div>
@@ -263,10 +277,10 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
         </div>
 
         <div class="inner-tab-content active" id="tab-monthly">
-          <div class="month-sel">
-            <button class="mnav" onclick="changeMonth(-1)"><i data-lucide="chevron-left"></i></button>
-            <span class="mlabel" id="month-label">—</span>
-            <button class="mnav" onclick="changeMonth(1)"><i data-lucide="chevron-right"></i></button>
+          <div class="date-sel">
+            <button class="dnav" onclick="changeMonth(-1)"><i data-lucide="chevron-left"></i></button>
+            <span class="dlabel" id="month-label">—</span>
+            <button class="dnav" onclick="changeMonth(1)"><i data-lucide="chevron-right"></i></button>
           </div>
           <div id="monthly-goals-list"></div>
         </div>
@@ -308,62 +322,97 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
     </div>
 
     <div class="page" id="page-settings">
-      <div class="page-content">
-      
-        <details class="sett-details">
-          <summary class="sett-summary"><i data-lucide="history" style="color:var(--sky)"></i> Cronologia (Annulla Azioni)</summary>
-          <div class="sett-content">
-            <p class="section-div" style="margin-top:0">Ultime azioni registrate</p>
-            <div id="settings-history-list"></div>
-          </div>
-        </details>
-
-        <details class="sett-details">
-          <summary class="sett-summary"><i data-lucide="zap" style="color:var(--green-dk)"></i> Gestisci Abitudini</summary>
-          <div class="sett-content">
-            <div class="section-div">Positive</div>
-            <div id="settings-positive-list"></div>
-            <div class="section-div" style="margin-top:20px;">Negative</div>
-            <div id="settings-negative-list"></div>
-            
-            <div style="margin-top:25px;">
-              <div class="modal-ttl" style="font-size:15px; margin-bottom:10px;"><i data-lucide="plus-circle" style="width:16px;"></i> Crea Nuova Abitudine</div>
-              <div class="emoji-scroll" id="emoji-picker-add"></div>
-              <div class="form-row">
-                <input class="fi" id="nh-name" placeholder="Nome (es. Bere Acqua)"/>
-                <input class="fi pts" id="nh-pts" type="number" placeholder="Pt (es 5)"/>
-              </div>
-              <button class="btn-add indigo" onclick="addHabitFromSettings()">Salva Abitudine</button>
-            </div>
-          </div>
-        </details>
-
-        <details class="sett-details">
-          <summary class="sett-summary"><i data-lucide="map" style="color:var(--indigo-dk)"></i> Gestisci Percorso</summary>
-          <div class="sett-content" id="settings-path-list"></div>
-        </details>
-
-        <details class="sett-details" style="border:none">
-          <summary class="sett-summary"><i data-lucide="settings" style="color:var(--txt2)"></i> Sistema e Backup</summary>
-          <div class="sett-content">
-            <button class="btn-sec" onclick="exportData()"><i data-lucide="download"></i> Esporta Backup</button>
-            <button class="btn-sec" onclick="document.getElementById('import-file').click()"><i data-lucide="upload"></i> Importa Backup</button>
-            <input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display:none;"/>
-            
-            <button class="btn-sec" style="margin-top: 15px;" onclick="forceAppUpdate()">
-              <i data-lucide="refresh-cw"></i> Cerca Aggiornamenti
-            </button>
-            
-            <button class="btn-danger" style="margin-top:30px;" onclick="resetData()">
-              <i data-lucide="trash-2"></i> Reset Completo Dati
-            </button>
-          </div>
-        </details>
-
+      <div class="page-content" style="padding-top: 30px;">
+        <button class="menu-btn" onclick="openSubPage('sub-history')">
+          <i data-lucide="history"></i> Cronologia Azioni <i data-lucide="chevron-right" class="arr"></i>
+        </button>
+        <button class="menu-btn" onclick="openSubPage('sub-habits')">
+          <i data-lucide="zap"></i> Gestisci Abitudini <i data-lucide="chevron-right" class="arr"></i>
+        </button>
+        <button class="menu-btn" onclick="openSubPage('sub-path')">
+          <i data-lucide="map"></i> Gestisci Percorso <i data-lucide="chevron-right" class="arr"></i>
+        </button>
+        <button class="menu-btn" onclick="openSubPage('sub-system')">
+          <i data-lucide="settings"></i> Sistema e Backup <i data-lucide="chevron-right" class="arr"></i>
+        </button>
       </div>
     </div>
 
-  </div><button id="main-fab" class="fab hidden" onclick="handleFabClick()">
+  </div><div class="sub-page" id="sub-history">
+    <div class="sub-hdr">
+      <button onclick="closeSubPage('sub-history')"><i data-lucide="arrow-left"></i></button>
+      <span>Cronologia Giornaliera</span>
+    </div>
+    <div class="sub-content">
+      <div class="date-sel">
+        <button class="dnav" onclick="changeHistoryDay(-1)"><i data-lucide="chevron-left"></i></button>
+        <span class="dlabel" id="history-date-label">Oggi</span>
+        <button class="dnav" onclick="changeHistoryDay(1)"><i data-lucide="chevron-right"></i></button>
+      </div>
+      <div id="history-day-list"></div>
+    </div>
+  </div>
+
+  <div class="sub-page" id="sub-habits">
+    <div class="sub-hdr">
+      <button onclick="closeSubPage('sub-habits')"><i data-lucide="arrow-left"></i></button>
+      <span>Gestisci Abitudini</span>
+    </div>
+    <div class="sub-content">
+      <div class="section-div">Positive</div>
+      <div id="settings-positive-list"></div>
+      <div class="section-div" style="margin-top:20px;">Negative</div>
+      <div id="settings-negative-list"></div>
+      
+      <div style="margin-top:30px; padding-top:15px; border-top:1px solid var(--border)">
+        <div class="modal-ttl" style="font-size:15px; margin-bottom:10px;"><i data-lucide="plus-circle" style="width:16px;"></i> Crea Nuova</div>
+        <div class="emoji-scroll" id="emoji-picker-add"></div>
+        <div class="form-row">
+          <input class="fi" id="nh-name" placeholder="Nome (es. Corsa)"/>
+          <input class="fi pts" id="nh-pts" type="number" placeholder="Pt (+ o -)"/>
+        </div>
+        <button class="btn-add indigo" onclick="addHabitFromSettings()">Salva Abitudine</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-page" id="sub-path">
+    <div class="sub-hdr">
+      <button onclick="closeSubPage('sub-path')"><i data-lucide="arrow-left"></i></button>
+      <span>Gestisci Percorso</span>
+    </div>
+    <div class="sub-content">
+      <div id="settings-path-list"></div>
+      <div style="margin-top:30px; padding-top:15px; border-top:1px solid var(--border)">
+        <div class="modal-ttl" style="font-size:15px; margin-bottom:10px;"><i data-lucide="plus-circle" style="width:16px;"></i> Aggiungi Step</div>
+        <div class="form-row">
+          <input class="fi" id="sn-name" placeholder="Nome (es. Premio o Punizione)"/>
+          <input class="fi pts" id="sn-pts" type="number" placeholder="Pt (es -50 o 100)"/>
+        </div>
+        <button class="btn-add indigo" onclick="addPathFromSettings()">Aggiungi</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-page" id="sub-system">
+    <div class="sub-hdr">
+      <button onclick="closeSubPage('sub-system')"><i data-lucide="arrow-left"></i></button>
+      <span>Sistema e Backup</span>
+    </div>
+    <div class="sub-content">
+      <button class="btn-sec" onclick="exportData()"><i data-lucide="download"></i> Esporta Backup</button>
+      <button class="btn-sec" onclick="document.getElementById('import-file').click()"><i data-lucide="upload"></i> Importa Backup</button>
+      <input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display:none;"/>
+      <button class="btn-sec" style="margin-top: 15px;" onclick="forceAppUpdate()">
+        <i data-lucide="refresh-cw"></i> Cerca Aggiornamenti PWA
+      </button>
+      <button class="btn-danger" style="margin-top:40px;" onclick="resetData()">
+        <i data-lucide="trash-2"></i> Reset Completo Dati
+      </button>
+    </div>
+  </div>
+
+  <button id="main-fab" class="fab hidden" onclick="handleFabClick()">
     <i data-lucide="plus"></i>
   </button>
 
@@ -415,9 +464,9 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 
 <div class="modal-ov" id="modal-add-path">
   <div class="modal-sheet">
-    <div class="modal-ttl"><i data-lucide="map-pin"></i> Step Percorso</div>
+    <div class="modal-ttl"><i data-lucide="map-pin"></i> Step Percorso (Usa il '-' per i negativi)</div>
     <div class="form-row">
-      <input class="fi" id="pn-name" placeholder="Es. Cena Fuori..."/>
+      <input class="fi" id="pn-name" placeholder="Es. Cena Fuori o Punizione"/>
       <input class="fi pts" id="pn-pts" type="number" placeholder="Pts"/>
     </div>
     <button class="btn-add sky" style="margin-bottom:10px;" onclick="addPathNode()">Aggiungi</button>
@@ -429,9 +478,10 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
   <div class="modal-sheet">
     <div class="modal-ttl"><i data-lucide="edit-2"></i> Modifica Abitudine</div>
     <input type="hidden" id="eh-id"/>
+    <div class="emoji-scroll" id="emoji-picker-edit"></div>
     <div class="form-row">
       <input class="fi" id="eh-name" placeholder="Nome"/>
-      <input class="fi pts" id="eh-pts" type="number" placeholder="Pts"/>
+      <input class="fi pts" id="eh-pts" type="number" placeholder="Pt"/>
     </div>
     <button class="btn-add indigo" style="margin-bottom:10px;" onclick="saveHabitEdit()">Aggiorna</button>
     <button class="btn-sec" onclick="closeModal('modal-edit-habit')">Annulla</button>
@@ -444,7 +494,7 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
     <input type="hidden" id="ep-id"/>
     <div class="form-row">
       <input class="fi" id="ep-name" placeholder="Nome Step"/>
-      <input class="fi pts" id="ep-pts" type="number" placeholder="Pts"/>
+      <input class="fi pts" id="ep-pts" type="number" placeholder="Pt"/>
     </div>
     <button class="btn-add sky" style="margin-bottom:10px;" onclick="savePathEdit()">Aggiorna</button>
     <button class="btn-sec" onclick="closeModal('modal-edit-path')">Annulla</button>
@@ -455,7 +505,7 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 function ci() { if(typeof lucide !== 'undefined') lucide.createIcons(); }
 
 /* --- GESTIONE DATI CON RECUPERO VECCHIE VERSIONI --- */
-const CURRENT_SK = 'daje_v6';
+const CURRENT_SK = 'daje_v7';
 
 function defaultState() {
   return {
@@ -471,24 +521,17 @@ function defaultState() {
     monthlyGoals: [],
     generalGoals: [],
     pathLevels: [
-      { id: 'p1', name: 'Primo Passo', points: 50 },
-      { id: 'p2', name: 'Cena Fuori',  points: 150 },
-      { id: 'p3', name: 'Regalo',      points: 300 }
+      { id: 'p1', name: 'Cena Fuori',  points: 150 },
+      { id: 'p2', name: 'Regalo',      points: 300 }
     ]
   };
 }
 
 function loadState() {
-  // Cerca la versione corrente, o le precedenti per non perdere i dati!
-  const keys = [CURRENT_SK, 'daje_v5', 'daje_v4', 'daje_v3', 'daje_v2'];
+  const keys = [CURRENT_SK, 'daje_v6', 'daje_v5', 'daje_v4', 'daje_v3', 'daje_v2'];
   for(let k of keys) {
     let raw = localStorage.getItem(k);
-    if(raw) {
-      try {
-        let p = JSON.parse(raw);
-        if(p && p.habits) return p;
-      } catch(e){}
-    }
+    if(raw) { try { let p = JSON.parse(raw); if(p && p.habits) return p; } catch(e){} }
   }
   return defaultState();
 }
@@ -496,36 +539,43 @@ function loadState() {
 let state = loadState();
 function save() { localStorage.setItem(CURRENT_SK, JSON.stringify(state)); }
 
-/* EMOJI PICKER */
-const EMOJIS = ['✨','🏋️','🏃','🧠','💧','🥗','📚','🧘','🔥','🚭','🚬','🍔','🍺','📱','🎮','🛋️','🤬','💸'];
-let selectedEmoji = '✨';
+/* EMOJI PICKERS */
+const EMOJIS = ['✨','🏋️','🏃','🧠','💧','🥗','📚','🧘','🔥','🚭','🚬','🍔','🍺','📱','🎮','🛋️','🤬','💸','🍕','🍷','💻','😴'];
+let selectedAddEmoji = '✨';
+let selectedEditEmoji = '✨';
 
-function initEmojiPicker() {
-  const container = document.getElementById('emoji-picker-add');
+function renderEmojiPicker(containerId, isEdit) {
+  const container = document.getElementById(containerId);
   container.innerHTML = '';
+  const currentSelection = isEdit ? selectedEditEmoji : selectedAddEmoji;
+  
   EMOJIS.forEach(em => {
     const btn = document.createElement('div');
-    btn.className = 'emoji-btn' + (em === selectedEmoji ? ' selected' : '');
+    btn.className = 'emoji-btn' + (em === currentSelection ? ' selected' : '');
     btn.innerText = em;
     btn.onclick = () => {
-      selectedEmoji = em;
-      document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+      if(isEdit) selectedEditEmoji = em; else selectedAddEmoji = em;
+      Array.from(container.children).forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
     };
     container.appendChild(btn);
   });
 }
 
+/* SUB-PAGES (IMPOSTAZIONI) */
+function openSubPage(id) { 
+  document.getElementById(id).classList.add('open');
+  if(id === 'sub-history') renderHistoryDay();
+  if(id === 'sub-habits') { renderSettingsHabits(); renderEmojiPicker('emoji-picker-add', false); }
+  if(id === 'sub-path') renderSettingsPath();
+  ci();
+}
+function closeSubPage(id) { document.getElementById(id).classList.remove('open'); }
+
 /* MODALS & FAB */
 function openModal(id) { document.getElementById(id).classList.add('show'); ci(); }
-function closeModal(id) { 
-  if(id) document.getElementById(id).classList.remove('show');
-  else document.querySelectorAll('.modal-ov').forEach(m => m.classList.remove('show'));
-}
-
-document.querySelectorAll('.modal-ov').forEach(ov => {
-  ov.addEventListener('click', e => { if(e.target === ov) ov.classList.remove('show'); });
-});
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-ov').forEach(ov => { ov.addEventListener('click', e => { if(e.target === ov) ov.classList.remove('show'); }); });
 
 function updateFab() {
   const fab = document.getElementById('main-fab');
@@ -537,9 +587,7 @@ function handleFabClick() {
   if (curPage === 'goals') {
     if (document.getElementById('tab-monthly').classList.contains('active')) openModal('modal-add-monthly');
     else openModal('modal-add-general');
-  } else if (curPage === 'path') {
-    openModal('modal-add-path');
-  }
+  } else if (curPage === 'path') openModal('modal-add-path');
 }
 
 /* NAVIGAZIONE */
@@ -549,14 +597,15 @@ function switchPage(p) {
   document.getElementById('page-'+p).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===p));
   curPage = p;
-  
   updateFab();
   
   if (p==='habits') renderHabits();
   if (p==='goals') renderGoals();
   if (p==='path') renderPath();
   if (p==='stats') renderStats();
-  if (p==='settings') { renderSettings(); initEmojiPicker(); }
+  
+  // Chiude eventuali sub-page aperte se cambio tab
+  document.querySelectorAll('.sub-page').forEach(sp => sp.classList.remove('open'));
   ci();
 }
 
@@ -569,7 +618,7 @@ function switchInnerTab(t) {
 
 /* SCORE E TOAST */
 function updateScore(delta) {
-  state.score = state.score + delta;
+  state.score = state.score + delta; 
   save();
   const pd = document.getElementById('score-display');
   document.getElementById('score-value').textContent = state.score;
@@ -594,14 +643,7 @@ function renderHabits() {
     const isPos = h.type === 'positive';
     const btn = document.createElement('button');
     btn.className = `habit-btn ${h.type}`;
-    const displayIcon = h.icon ? h.icon : (isPos ? '✨' : '⚠️');
-    
-    btn.innerHTML = `
-      <div class="hb-icon">${displayIcon}</div>
-      <div class="hb-name">${h.name}</div>
-      <div class="hb-pts">${isPos ? '+'+h.points : h.points} pts</div>
-    `;
-
+    btn.innerHTML = `<div class="hb-icon">${h.icon || '✨'}</div><div class="hb-name">${h.name}</div><div class="hb-pts">${isPos ? '+'+h.points : h.points} pts</div>`;
     btn.addEventListener('click', () => {
       state.history.push({ habitId: h.id, habitName: h.name, points: h.points, ts: new Date().toISOString() });
       updateScore(h.points);
@@ -613,14 +655,8 @@ function renderHabits() {
 
 /* 2. OBIETTIVI */
 let mOffset = 0;
-function monthKey(off) {
-  const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+off);
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-}
-function monthLabel(off) {
-  const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+off);
-  return d.toLocaleDateString('it-IT',{month:'long',year:'numeric'}).toUpperCase();
-}
+function monthKey(off) { const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+off); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
+function monthLabel(off) { const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+off); return d.toLocaleDateString('it-IT',{month:'long',year:'numeric'}).toUpperCase(); }
 function changeMonth(dir) { mOffset+=dir; renderGoals(); }
 
 function renderGoals() {
@@ -628,84 +664,31 @@ function renderGoals() {
   const mc = document.getElementById('monthly-goals-list');
   const mGoals = state.monthlyGoals.filter(g => g.monthKey === monthKey(mOffset));
   
-  if(!mGoals.length) {
-    mc.innerHTML = `<div class="empty-st">Nessun obiettivo mensile.</div>`;
-  } else {
+  if(!mGoals.length) mc.innerHTML = `<div class="empty-st">Nessun obiettivo mensile.</div>`;
+  else {
     mc.innerHTML = '';
     mGoals.forEach(g => {
-      const div = document.createElement('div');
-      div.className = 'goal-item' + (g.completed ? ' completed' : '');
-      div.innerHTML = `
-        <div class="g-check ${g.completed ? 'checked' : ''}">${g.completed ? '<i data-lucide="check"></i>' : ''}</div>
-        <div class="g-info">
-          <div class="g-name">${g.name}</div>
-          <div class="g-pts">${g.points > 0 ? '+'+g.points : g.points} pts</div>
-        </div>
-        <div class="g-actions">
-          <button class="g-btn" title="Modifica"><i data-lucide="edit-2"></i></button>
-          <button class="g-btn del" title="Elimina"><i data-lucide="trash-2"></i></button>
-        </div>
-      `;
-      div.querySelector('.g-check').addEventListener('click', () => {
-        g.completed = !g.completed;
-        updateScore(g.completed ? g.points : -g.points);
-        showToast(g.completed ? 'Obiettivo raggiunto!' : 'Obiettivo annullato');
-        save(); renderGoals();
-      });
-      div.querySelectorAll('.g-btn')[0].addEventListener('click', () => {
-        const nn = prompt("Nuovo nome:", g.name);
-        if(nn) { g.name = nn; save(); renderGoals(); }
-      });
-      div.querySelectorAll('.g-btn')[1].addEventListener('click', () => {
-        state.monthlyGoals = state.monthlyGoals.filter(x => x.id !== g.id);
-        save(); renderGoals();
-      });
+      const div = document.createElement('div'); div.className = 'goal-item' + (g.completed ? ' completed' : '');
+      div.innerHTML = `<div class="g-check ${g.completed ? 'checked' : ''}">${g.completed ? '<i data-lucide="check"></i>' : ''}</div><div class="g-info"><div class="g-name">${g.name}</div><div class="g-pts">${g.points > 0 ? '+'+g.points : g.points} pts</div></div><div class="g-actions"><button class="g-btn" title="Modifica"><i data-lucide="edit-2"></i></button><button class="g-btn del" title="Elimina"><i data-lucide="trash-2"></i></button></div>`;
+      div.querySelector('.g-check').addEventListener('click', () => { g.completed = !g.completed; updateScore(g.completed ? g.points : -g.points); save(); renderGoals(); });
+      div.querySelectorAll('.g-btn')[0].addEventListener('click', () => { const nn = prompt("Nuovo nome:", g.name); if(nn) { g.name = nn; save(); renderGoals(); } });
+      div.querySelectorAll('.g-btn')[1].addEventListener('click', () => { state.monthlyGoals = state.monthlyGoals.filter(x => x.id !== g.id); save(); renderGoals(); });
       mc.appendChild(div);
     });
   }
 
-  const gac = document.getElementById('general-goals-active-list');
-  const gcc = document.getElementById('general-goals-completed-list');
+  const gac = document.getElementById('general-goals-active-list'); const gcc = document.getElementById('general-goals-completed-list');
   gac.innerHTML = ''; gcc.innerHTML = '';
-  
   const sortedGen = [...state.generalGoals].sort((a,b)=>(a.order||0)-(b.order||0));
-  let aCount = 0;
-  let hasActive = false, hasCompleted = false;
+  let aCount = 0; let hasActive = false, hasCompleted = false;
 
   sortedGen.forEach((g, index) => {
-    const isDone = !!g.completed;
-    const isActive = !isDone && aCount < 3; 
-    if(!isDone && isActive) aCount++;
-    const isLocked = !isDone && !isActive;
-
-    const div = document.createElement('div');
-    div.className = 'goal-item' + (isDone ? ' completed' : '') + (isLocked ? ' locked' : '');
-    
-    let chkHtml = isDone ? `<div class="g-check checked"><i data-lucide="check"></i></div>` : 
-                 (isLocked ? `<div class="g-check" style="cursor:not-allowed"><i data-lucide="lock" style="color:var(--txt3); width:12px"></i></div>` : `<div class="g-check"></div>`);
+    const isDone = !!g.completed; const isActive = !isDone && aCount < 3; if(!isDone && isActive) aCount++; const isLocked = !isDone && !isActive;
+    const div = document.createElement('div'); div.className = 'goal-item' + (isDone ? ' completed' : '') + (isLocked ? ' locked' : '');
+    let chkHtml = isDone ? `<div class="g-check checked"><i data-lucide="check"></i></div>` : (isLocked ? `<div class="g-check" style="cursor:not-allowed"><i data-lucide="lock" style="color:var(--txt3); width:12px"></i></div>` : `<div class="g-check"></div>`);
     let badgeHtml = isLocked ? `<span class="lock-badge">Bloccato</span>` : (isActive && !isDone ? `<span class="active-badge">Attivo</span>` : '');
-
-    div.innerHTML = `
-      ${chkHtml}
-      <div class="g-info"><div class="g-name">${g.name}</div><div class="g-pts">+${g.points} pts</div></div>
-      <div class="g-actions">
-        ${badgeHtml}
-        ${!isDone ? `<button class="g-btn" data-act="up"><i data-lucide="chevron-up"></i></button>
-                     <button class="g-btn" data-act="down"><i data-lucide="chevron-down"></i></button>` : ''}
-        <button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button>
-        <button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button>
-      </div>
-    `;
-
-    if(!isLocked) {
-      div.querySelector('.g-check').addEventListener('click', () => {
-        g.completed = !g.completed;
-        updateScore(g.completed ? g.points : -g.points);
-        showToast(g.completed ? 'Sbloccato!' : 'Annullato');
-        save(); renderGoals();
-      });
-    }
-
+    div.innerHTML = `${chkHtml}<div class="g-info"><div class="g-name">${g.name}</div><div class="g-pts">+${g.points} pts</div></div><div class="g-actions">${badgeHtml}${!isDone ? `<button class="g-btn" data-act="up"><i data-lucide="chevron-up"></i></button><button class="g-btn" data-act="down"><i data-lucide="chevron-down"></i></button>` : ''}<button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>`;
+    if(!isLocked) div.querySelector('.g-check').addEventListener('click', () => { g.completed = !g.completed; updateScore(g.completed ? g.points : -g.points); save(); renderGoals(); });
     div.querySelectorAll('.g-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const act = btn.dataset.act;
@@ -716,100 +699,79 @@ function renderGoals() {
         state.generalGoals = sortedGen; save(); renderGoals();
       });
     });
-
-    if(isDone) { gcc.appendChild(div); hasCompleted = true; } 
-    else { gac.appendChild(div); hasActive = true; }
+    if(isDone) { gcc.appendChild(div); hasCompleted = true; } else { gac.appendChild(div); hasActive = true; }
   });
-
   if(!hasActive) gac.innerHTML = `<div class="empty-st">Nessun obiettivo generale.</div>`;
   if(hasCompleted) gcc.insertAdjacentHTML('afterbegin', `<div class="section-div">Completati</div>`);
   ci();
 }
 
 function uid() { return Math.random().toString(36).slice(2,9); }
+function addMonthlyGoal() { const n=document.getElementById('mg-name').value.trim(); const p=parseInt(document.getElementById('mg-pts').value); if(!n||isNaN(p)) return showToast('Campi invalidi!'); state.monthlyGoals.push({id: uid(), monthKey: monthKey(mOffset), name: n, points: p, completed: false}); save(); document.getElementById('mg-name').value=''; document.getElementById('mg-pts').value=''; closeModal('modal-add-monthly'); renderGoals(); }
+function addGeneralGoal() { const n=document.getElementById('gg-name').value.trim(); const p=parseInt(document.getElementById('gg-pts').value); if(!n||isNaN(p)) return showToast('Campi invalidi!'); const mx = state.generalGoals.reduce((max, g) => Math.max(max, g.order||0), 0); state.generalGoals.push({id: uid(), name: n, points: p, completed: false, order: mx+1}); save(); document.getElementById('gg-name').value=''; document.getElementById('gg-pts').value=''; closeModal('modal-add-general'); renderGoals(); }
 
-function addMonthlyGoal() {
-  const n=document.getElementById('mg-name').value.trim();
-  const p=parseInt(document.getElementById('mg-pts').value);
-  if(!n||isNaN(p)) return showToast('Compila i campi!');
-  state.monthlyGoals.push({id: uid(), monthKey: monthKey(mOffset), name: n, points: p, completed: false});
-  save(); document.getElementById('mg-name').value=''; document.getElementById('mg-pts').value=''; 
-  closeModal('modal-add-monthly'); renderGoals();
-}
-
-function addGeneralGoal() {
-  const n=document.getElementById('gg-name').value.trim();
-  const p=parseInt(document.getElementById('gg-pts').value);
-  if(!n||isNaN(p)) return showToast('Compila i campi!');
-  const mx = state.generalGoals.reduce((max, g) => Math.max(max, g.order||0), 0);
-  state.generalGoals.push({id: uid(), name: n, points: p, completed: false, order: mx+1});
-  save(); document.getElementById('gg-name').value=''; document.getElementById('gg-pts').value=''; 
-  closeModal('modal-add-general'); renderGoals();
-}
-
-/* 3. PERCORSO */
+/* 3. PERCORSO 0-CENTRICO */
 function renderPath() {
   const c = document.getElementById('path-timeline'); 
   c.innerHTML = '';
   
-  const sortedPath = [...state.pathLevels].sort((a,b)=>a.points-b.points);
-  if(!sortedPath.length) { c.innerHTML = '<div class="empty-st">Nessun step aggiunto.</div>'; return; }
+  let pathData = [...state.pathLevels];
+  // Inietta nodo 0 visivo se non esiste
+  if(!pathData.some(p => p.points === 0)) pathData.push({ id: 'zero', name: 'Punto di Partenza', points: 0, isZero: true });
+  
+  // Ordina crescente: con column-reverse, il più basso (negativo) va in basso, il più alto in alto.
+  pathData.sort((a,b) => a.points - b.points);
 
-  sortedPath.forEach(node => {
-    const ok = state.score >= node.points;
+  pathData.forEach(node => {
+    // Logica di sblocco:
+    let ok = false;
+    if(node.points > 0) ok = state.score >= node.points;
+    else if(node.points < 0) ok = state.score <= node.points;
+    else ok = true; // 0 è sempre sbloccato visivamente
+
+    let clsType = node.points > 0 ? 'positive' : (node.points < 0 ? 'negative' : 'zero');
+    
     const d = document.createElement('div');
-    d.className = `path-node ${ok ? 'unlocked' : ''}`;
+    d.className = `path-node ${ok ? 'unlocked' : ''} ${clsType}`;
     d.innerHTML = `
-      <div class="pn-dot"><i data-lucide="${ok ? 'star' : 'lock'}"></i></div>
-      <div class="pn-card">
+      <div class="pn-dot"><i data-lucide="${ok ? (node.isZero?'play':'star') : 'lock'}"></i></div>
+      <div class="pn-card" style="${node.isZero ? 'background:var(--surface2); border-color:transparent' : ''}">
         <div>
           <div class="pn-name">${node.name}</div>
-          <div class="pn-pts">${node.points} pts richiesti</div>
+          <div class="pn-pts">${node.isZero ? '0 pts' : node.points + ' pts'}</div>
         </div>
-        <div class="pn-right">
-          <button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button>
-          <button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button>
-        </div>
+        ${!node.isZero ? `<div class="pn-right"><button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>` : ''}
       </div>
     `;
 
-    d.querySelectorAll('.g-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if(btn.dataset.act === 'del') {
-          state.pathLevels = state.pathLevels.filter(p => p.id !== node.id);
-          save(); renderPath(); renderSettings();
-        } else {
-          // Apre il modal di Modifica Step
-          document.getElementById('ep-id').value = node.id;
-          document.getElementById('ep-name').value = node.name;
-          document.getElementById('ep-pts').value = node.points;
-          openModal('modal-edit-path');
-        }
+    if(!node.isZero) {
+      d.querySelectorAll('.g-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if(btn.dataset.act === 'del') {
+            state.pathLevels = state.pathLevels.filter(p => p.id !== node.id); save(); renderPath(); renderSettingsPath();
+          } else {
+            document.getElementById('ep-id').value = node.id;
+            document.getElementById('ep-name').value = node.name;
+            document.getElementById('ep-pts').value = node.points;
+            openModal('modal-edit-path');
+          }
+        });
       });
-    });
+    }
     c.appendChild(d);
   });
   ci();
 }
 
-function addPathNode() {
-  const n=document.getElementById('pn-name').value.trim();
-  const p=parseInt(document.getElementById('pn-pts').value);
-  if(!n||isNaN(p)) return showToast('Dati non validi!');
-  state.pathLevels.push({ id: uid(), name: n, points: p });
-  save(); document.getElementById('pn-name').value=''; document.getElementById('pn-pts').value='';
-  closeModal('modal-add-path'); renderPath(); renderSettings();
-}
+function addPathNode() { const n=document.getElementById('pn-name').value.trim(); const p=parseInt(document.getElementById('pn-pts').value); if(!n||isNaN(p)) return showToast('Dati non validi!'); state.pathLevels.push({ id: uid(), name: n, points: p }); save(); document.getElementById('pn-name').value=''; document.getElementById('pn-pts').value=''; closeModal('modal-add-path'); renderPath(); }
+function addPathFromSettings() { const n=document.getElementById('sn-name').value.trim(); const p=parseInt(document.getElementById('sn-pts').value); if(!n||isNaN(p)) return showToast('Dati invalidi!'); state.pathLevels.push({ id: uid(), name: n, points: p }); save(); document.getElementById('sn-name').value=''; document.getElementById('sn-pts').value=''; renderSettingsPath(); renderPath(); showToast('Aggiunto!'); }
 
 function savePathEdit() {
-  const id = document.getElementById('ep-id').value;
-  const n = document.getElementById('ep-name').value.trim();
-  const p = parseInt(document.getElementById('ep-pts').value);
+  const id = document.getElementById('ep-id').value; const n = document.getElementById('ep-name').value.trim(); const p = parseInt(document.getElementById('ep-pts').value);
   if(!n || isNaN(p)) return showToast('Dati non validi!');
-  
   let node = state.pathLevels.find(x => x.id === id);
   if(node) { node.name = n; node.points = p; save(); }
-  closeModal('modal-edit-path'); renderPath(); renderSettings();
+  closeModal('modal-edit-path'); renderPath(); renderSettingsPath();
 }
 
 /* 4. STATISTICHE */
@@ -818,89 +780,67 @@ function renderStats() {
   const smokeLogs = state.history.filter(h => h.habitName.toLowerCase().includes('sigarett'));
   const days = smokeLogs.length ? Math.floor((Date.now() - new Date(smokeLogs[smokeLogs.length-1].ts).getTime()) / 86400000) : null;
   document.getElementById('abstinence-days').textContent = days === null ? '∞' : days;
-
-  if(chartPos) chartPos.destroy();
-  if(chartNeg) chartNeg.destroy();
-
-  const posHb = state.habits.filter(h => h.type === 'positive');
-  const negHb = state.habits.filter(h => h.type === 'negative');
-  const posCounts = posHb.map(h => state.history.filter(e => e.habitId === h.id).length);
-  const negCounts = negHb.map(h => state.history.filter(e => e.habitId === h.id).length);
+  if(chartPos) chartPos.destroy(); if(chartNeg) chartNeg.destroy();
+  const posHb = state.habits.filter(h => h.type === 'positive'); const negHb = state.habits.filter(h => h.type === 'negative');
+  const posCounts = posHb.map(h => state.history.filter(e => e.habitId === h.id).length); const negCounts = negHb.map(h => state.history.filter(e => e.habitId === h.id).length);
 
   function makeChart(wrapId, canvasId, labels, dataArr, colors) {
-    const wrap = document.getElementById(wrapId);
-    const hasData = dataArr.reduce((a,b) => a+b, 0) > 0;
+    const wrap = document.getElementById(wrapId); const hasData = dataArr.reduce((a,b) => a+b, 0) > 0;
     if(!hasData) { wrap.innerHTML = `<div class="empty-st" style="padding:0">Nessun dato registrato</div>`; return null; }
     wrap.innerHTML = `<canvas id="${canvasId}"></canvas>`;
-    return new Chart(document.getElementById(canvasId).getContext('2d'), {
-      type: 'doughnut',
-      data: { labels, datasets: [{ data: dataArr, backgroundColor: colors, borderWidth: 0 }] },
-      options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
-    });
+    return new Chart(document.getElementById(canvasId).getContext('2d'), { type: 'doughnut', data: { labels, datasets: [{ data: dataArr, backgroundColor: colors, borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } } });
   }
-
-  const gp=['#10B981','#34D399','#6EE7B7','#059669','#2DD4BF'];
-  const rp=['#F43F5E','#FB7185','#FDA4AF','#E11D48','#9F1239'];
-
-  chartPos = makeChart('chartPosWrap', 'canvasPos', posHb.map(h=>h.name), posCounts, gp);
-  chartNeg = makeChart('chartNegWrap', 'canvasNeg', negHb.map(h=>h.name), negCounts, rp);
+  chartPos = makeChart('chartPosWrap', 'canvasPos', posHb.map(h=>h.name), posCounts, ['#10B981','#34D399','#6EE7B7','#059669','#2DD4BF']);
+  chartNeg = makeChart('chartNegWrap', 'canvasNeg', negHb.map(h=>h.name), negCounts, ['#F43F5E','#FB7185','#FDA4AF','#E11D48','#9F1239']);
 }
 
-/* 5. IMPOSTAZIONI */
-function renderSettings() {
+/* 5. SOTTO-PAGINE IMPOSTAZIONI */
 
-  // Cronologia (Annulla Azioni)
-  const hc = document.getElementById('settings-history-list');
-  hc.innerHTML = '';
-  const recentHistory = [...state.history].reverse().slice(0, 15);
-  if(!recentHistory.length) {
-    hc.innerHTML = `<div class="empty-st" style="padding:12px 0">Nessuna azione.</div>`;
-  } else {
-    recentHistory.forEach((item) => {
-      const d = new Date(item.ts);
-      const tStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+// 5.1 CRONOLOGIA GIORNALIERA
+let historyOffset = 0;
+function changeHistoryDay(dir) { 
+  historyOffset += dir; 
+  if(historyOffset > 0) historyOffset = 0; // Non andare nel futuro
+  renderHistoryDay(); 
+}
+
+function renderHistoryDay() {
+  const d = new Date(); d.setDate(d.getDate() + historyOffset);
+  document.getElementById('history-date-label').textContent = historyOffset === 0 ? 'Oggi' : d.toLocaleDateString();
+  const targetDateStr = d.toDateString();
+  
+  const hc = document.getElementById('history-day-list'); hc.innerHTML = '';
+  const dayLogs = state.history.filter(item => new Date(item.ts).toDateString() === targetDateStr).reverse();
+  
+  if(!dayLogs.length) hc.innerHTML = `<div class="empty-st">Nessuna azione.</div>`;
+  else {
+    dayLogs.forEach((item) => {
+      const tStr = new Date(item.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       const div = document.createElement('div'); div.className = 'sett-item';
-      div.innerHTML = `
-        <div>
-          <strong>${item.habitName}</strong> <span class="badge ${item.points>=0?'pos':'neg'}">${item.points>=0?'+':''}${item.points}</span>
-          <div style="font-size:10px; color:var(--txt3); margin-top:3px">${tStr}</div>
-        </div>
-        <button class="g-btn del" title="Annulla"><i data-lucide="rotate-ccw"></i></button>
-      `;
+      div.innerHTML = `<div><strong>${item.habitName}</strong> <span class="badge ${item.points>=0?'pos':'neg'}">${item.points>=0?'+':''}${item.points}</span><div style="font-size:10px; color:var(--txt3); margin-top:3px">${tStr}</div></div><button class="g-btn del" title="Annulla"><i data-lucide="rotate-ccw"></i></button>`;
       div.querySelector('.g-btn').addEventListener('click', () => {
-         state.history.splice(state.history.indexOf(item), 1);
-         updateScore(-item.points); 
-         save(); renderSettings(); renderStats(); renderHabits();
-         showToast('Azione annullata');
+         state.history.splice(state.history.indexOf(item), 1); updateScore(-item.points); save(); renderHistoryDay(); showToast('Azione annullata');
       });
       hc.appendChild(div);
     });
   }
+  ci();
+}
 
-  // Gestione Abitudini
+// 5.2 ABITUDINI
+function renderSettingsHabits() {
   const popList = (type, cId) => {
     const c = document.getElementById(cId); c.innerHTML='';
     const list = state.habits.filter(h => h.type===type);
     if(!list.length) c.innerHTML = '<div class="empty-st" style="padding:10px 0">Vuoto</div>';
-    
     list.forEach(h => {
       const div = document.createElement('div'); div.className = 'sett-item';
-      div.innerHTML = `
-        <div><strong>${h.icon || '✨'} ${h.name}</strong> <span class="badge ${type==='positive'?'pos':'neg'}">${h.points}</span></div>
-        <div style="display:flex;gap:5px;">
-           <button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button>
-           <button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button>
-        </div>
-      `;
+      div.innerHTML = `<div><strong>${h.icon || '✨'} ${h.name}</strong> <span class="badge ${type==='positive'?'pos':'neg'}">${h.points}</span></div><div style="display:flex;gap:5px;"><button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>`;
       div.querySelectorAll('.g-btn').forEach(b => b.addEventListener('click', () => {
-        if(b.dataset.act==='del') {
-          state.habits = state.habits.filter(x=>x.id!==h.id);
-          save(); renderSettings(); renderHabits();
-        } else {
-          // Apre Modale per Modifica
-          document.getElementById('eh-id').value = h.id;
-          document.getElementById('eh-name').value = h.name;
-          document.getElementById('eh-pts').value = h.points;
+        if(b.dataset.act==='del') { state.habits = state.habits.filter(x=>x.id!==h.id); save(); renderSettingsHabits(); }
+        else {
+          document.getElementById('eh-id').value = h.id; document.getElementById('eh-name').value = h.name; document.getElementById('eh-pts').value = h.points;
+          selectedEditEmoji = h.icon || '✨'; renderEmojiPicker('emoji-picker-edit', true);
           openModal('modal-edit-habit');
         }
       }));
@@ -908,108 +848,55 @@ function renderSettings() {
     });
   };
   popList('positive', 'settings-positive-list'); popList('negative', 'settings-negative-list');
+  ci();
+}
 
-  // Gestione Percorso
+function saveHabitEdit() {
+  const id = document.getElementById('eh-id').value; const n = document.getElementById('eh-name').value.trim(); const p = parseInt(document.getElementById('eh-pts').value);
+  if(!n || isNaN(p)) return showToast('Dati non validi!');
+  let h = state.habits.find(x => x.id === id);
+  if(h) { h.name = n; h.points = p; h.type = p >= 0 ? 'positive' : 'negative'; h.icon = selectedEditEmoji; save(); }
+  closeModal('modal-edit-habit'); renderSettingsHabits(); showToast('Aggiornato!');
+}
+
+function addHabitFromSettings() {
+  const name = document.getElementById('nh-name').value.trim(); const pts = parseInt(document.getElementById('nh-pts').value);
+  if(!name || isNaN(pts)) return showToast('Dati non validi!');
+  state.habits.push({ id: uid(), name, points: pts, type: pts >= 0 ? 'positive' : 'negative', icon: selectedAddEmoji });
+  save(); document.getElementById('nh-name').value=''; document.getElementById('nh-pts').value=''; renderSettingsHabits(); showToast('Salvato!');
+}
+
+// 5.3 PERCORSO
+function renderSettingsPath() {
   const pc = document.getElementById('settings-path-list'); pc.innerHTML = '';
-  if(!state.pathLevels.length) pc.innerHTML = '<div class="empty-st" style="padding:10px 0">Vuoto</div>';
-  state.pathLevels.forEach(p => {
+  const sorted = [...state.pathLevels].sort((a,b)=>a.points-b.points);
+  if(!sorted.length) pc.innerHTML = '<div class="empty-st" style="padding:10px 0">Vuoto</div>';
+  sorted.forEach(p => {
     const div = document.createElement('div'); div.className = 'sett-item';
-    div.innerHTML = `<div><strong>${p.name}</strong> (${p.points}pt)</div>
-      <div style="display:flex;gap:5px;">
-        <button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button>
-        <button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button>
-      </div>`;
+    div.innerHTML = `<div><strong>${p.name}</strong> <span class="badge ${p.points>0?'pos':(p.points<0?'neg':'neu')}">${p.points}</span></div><div style="display:flex;gap:5px;"><button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>`;
     div.querySelectorAll('.g-btn').forEach(b => b.addEventListener('click', () => {
-      if(b.dataset.act==='del') {
-        state.pathLevels = state.pathLevels.filter(x=>x.id!==p.id);
-        save(); renderSettings(); renderPath();
-      } else {
-        document.getElementById('ep-id').value = p.id;
-        document.getElementById('ep-name').value = p.name;
-        document.getElementById('ep-pts').value = p.points;
-        openModal('modal-edit-path');
-      }
+      if(b.dataset.act==='del') { state.pathLevels = state.pathLevels.filter(x=>x.id!==p.id); save(); renderSettingsPath(); }
+      else { document.getElementById('ep-id').value = p.id; document.getElementById('ep-name').value = p.name; document.getElementById('ep-pts').value = p.points; openModal('modal-edit-path'); }
     }));
     pc.appendChild(div);
   });
   ci();
 }
 
-function saveHabitEdit() {
-  const id = document.getElementById('eh-id').value;
-  const n = document.getElementById('eh-name').value.trim();
-  const p = parseInt(document.getElementById('eh-pts').value);
-  if(!n || isNaN(p)) return showToast('Dati non validi!');
-  
-  let h = state.habits.find(x => x.id === id);
-  if(h) { h.name = n; h.points = p; h.type = p >= 0 ? 'positive' : 'negative'; save(); }
-  closeModal('modal-edit-habit'); renderSettings(); renderHabits();
-}
-
-function addHabitFromSettings() {
-  const name = document.getElementById('nh-name').value.trim();
-  const pts = parseInt(document.getElementById('nh-pts').value);
-  if(!name || isNaN(pts)) return showToast('Dati non validi!');
-  const type = pts >= 0 ? 'positive' : 'negative';
-  state.habits.push({ id: uid(), name, points: pts, type, icon: selectedEmoji });
-  save(); document.getElementById('nh-name').value=''; document.getElementById('nh-pts').value='';
-  renderSettings(); renderHabits(); showToast('Salvato!');
-}
-
 /* SISTEMA E AGGIORNAMENTO FORZATO */
 function forceAppUpdate() {
   showToast('Cerco aggiornamenti...');
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-      for(let registration of registrations) registration.unregister();
-    });
-  }
-  if ('caches' in window) {
-    caches.keys().then(function(names) {
-      for (let name of names) caches.delete(name);
-    });
-  }
-  setTimeout(() => {
-    window.location.href = window.location.href.split('?')[0] + "?update=" + new Date().getTime();
-  }, 1000);
+  if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(function(regs) { for(let r of regs) r.unregister(); });
+  if ('caches' in window) caches.keys().then(function(names) { for (let n of names) caches.delete(n); });
+  setTimeout(() => { window.location.href = window.location.href.split('?')[0] + "?update=" + new Date().getTime(); }, 1000);
 }
+function exportData() { const blob = new Blob([JSON.stringify(state)], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = "daje_backup.json"; a.click(); URL.revokeObjectURL(url); }
+function importData(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = function(evt) { try { const imp = JSON.parse(evt.target.result); if(imp.habits) { state = imp; save(); document.getElementById('score-value').textContent = state.score; showToast('Dati importati!'); setTimeout(()=>location.reload(), 1000); } } catch(err) { showToast('File non valido'); } }; reader.readAsText(file); }
+function resetData() { if(confirm('Vuoi davvero cancellare TUTTI i tuoi progressi?')) { state = defaultState(); save(); location.reload(); } }
 
-function exportData() {
-  const blob = new Blob([JSON.stringify(state)], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = "daje_backup.json"; a.click(); URL.revokeObjectURL(url);
-}
-
-function importData(e) {
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) {
-    try {
-      const imp = JSON.parse(evt.target.result);
-      if(imp.habits) {
-        state = imp; save();
-        renderHabits(); renderGoals(); renderPath(); renderSettings();
-        document.getElementById('score-value').textContent = state.score;
-        showToast('Dati importati!');
-      }
-    } catch(err) { showToast('File non valido'); }
-  };
-  reader.readAsText(file);
-}
-
-function resetData() {
-  if(confirm('Vuoi davvero cancellare TUTTI i tuoi progressi? L\'azione è irreversibile.')) {
-    state = defaultState(); save(); location.reload();
-  }
-}
-
-// Inizializzazione
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('score-value').textContent = state.score;
-  renderHabits(); renderGoals(); renderPath(); renderSettings();
-  updateFab();
-  ci();
+  renderHabits(); renderGoals(); renderPath(); updateFab(); ci();
 });
 </script>
 </body>
