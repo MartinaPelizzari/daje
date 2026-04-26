@@ -152,7 +152,12 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .form-row{display:flex;gap:9px;margin-bottom:10px}
 .fi{height:46px;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:0 14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;color:var(--txt);background:var(--bg);outline:none;transition:border-color .2s; width: 100%; box-sizing: border-box;}
 .fi:focus{border-color:var(--indigo)}
+.fi.pts{width:80px;flex:none}
 .fi.ico{text-align:center;font-size:20px !important;padding:0; width: 60px; flex-shrink: 0;}
+
+/* FIX DATE INPUTS */
+input[type="date"].fi { padding: 0 8px !important; font-size: 13px !important; }
+
 .btn-add, .btn-sec, .btn-danger{height:46px;padding:0 18px;border:none;border-radius:var(--r-sm);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;width:100%}
 .btn-add.indigo{background:var(--indigo);color:#fff}
 .btn-add.green{background:var(--green);color:#fff}
@@ -184,8 +189,8 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 
 /* STATS */
 .stats-hero{background:linear-gradient(140deg,#0F172A 0%,#1E293B 55%,#1a2044 100%);border-radius:var(--r-xl);padding:28px 24px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden}
-.abs-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.abs-num{font-size:58px;font-weight:800;color:#fff;line-height:1;letter-spacing:-3px;}
+.abs-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;position:relative;z-index:1;}
+.abs-num{font-size:58px;font-weight:800;color:#fff;line-height:1;letter-spacing:-3px;position:relative;z-index:1;}
 .chart-card{background:var(--surface);border-radius:var(--r-lg);padding:20px;margin-bottom:14px;border:1px solid var(--border);box-shadow:var(--sh-sm)}
 .chart-hdr{display:flex;align-items:center;gap:8px;margin-bottom:16px}
 .chart-ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -437,7 +442,7 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 
 <script>
 function ci() { if(typeof lucide !== 'undefined') lucide.createIcons(); }
-const CURRENT_SK = 'daje_v10';
+const CURRENT_SK = 'daje_v11';
 
 function getRandomColor() { const colors = ['#6366F1', '#10B981', '#F59E0B', '#0EA5E9', '#8B5CF6', '#EC4899', '#14B8A6']; return colors[Math.floor(Math.random() * colors.length)]; }
 
@@ -457,7 +462,7 @@ function defaultState() {
 }
 
 function loadState() {
-  const keys = [CURRENT_SK, 'daje_v9', 'daje_v8', 'daje_v7', 'daje_v6', 'daje_v5'];
+  const keys = [CURRENT_SK, 'daje_v10', 'daje_v9', 'daje_v8', 'daje_v7', 'daje_v6', 'daje_v5'];
   for(let k of keys) {
     let raw = localStorage.getItem(k);
     if(raw) { 
@@ -531,7 +536,7 @@ function switchPage(p) {
   if (p==='habits') renderHabits();
   if (p==='goals') renderGoals();
   if (p==='path') renderPath();
-  if (p==='stats') { applyQuickStatsFilter(); } // Forza inizializzazione e render stats
+  if (p==='stats') { applyQuickStatsFilter(); } 
   if (p==='progress') renderProgress();
   ci();
 }
@@ -707,7 +712,12 @@ function applyQuickStatsFilter() {
     start = new Date(d.getFullYear(), q * 3, 1);
     end = new Date(d.getFullYear(), q * 3 + 3, 0);
   } else if(val === 'all_time') {
-    start = new Date(2020, 0, 1); 
+    if(state.history.length > 0) {
+      const firstActionDate = new Date(Math.min(...state.history.map(h => new Date(h.ts))));
+      start = firstActionDate;
+    } else {
+      start = new Date(2026, 3, 1); // 1 Aprile 2026
+    }
     end = new Date();
   } else {
     document.getElementById('stats-custom-dates').style.display = 'grid';
@@ -721,15 +731,13 @@ function applyQuickStatsFilter() {
 }
 
 function renderStats() {
-  // Calcolo Globale Giorni senza fumo
   const smokeLogs = state.history.filter(h => h.habitName.toLowerCase().includes('sigarett'));
   const days = smokeLogs.length ? Math.floor((Date.now() - new Date(smokeLogs[smokeLogs.length-1].ts).getTime()) / 86400000) : null;
   document.getElementById('abstinence-days').textContent = days === null ? '∞' : days;
   
-  // Date filtro
   const startStr = document.getElementById('stats-start-date').value;
   const endStr = document.getElementById('stats-end-date').value;
-  if(!startStr || !endStr) return; // Aspetta che ci siano le date
+  if(!startStr || !endStr) return; 
 
   const start = new Date(startStr); start.setHours(0,0,0,0);
   const end = new Date(endStr); end.setHours(23,59,59,999);
@@ -770,7 +778,6 @@ function renderStats() {
     options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: false }, y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { position: 'bottom' } } }
   });
 
-  // BILANCIO GLOBALE (Filtrato per Data)
   const totalPos = filteredHistory.filter(h => h.points > 0).length;
   const totalNeg = filteredHistory.filter(h => h.points < 0).length;
   const totalActions = totalPos + totalNeg;
@@ -781,7 +788,7 @@ function renderStats() {
     if(g.completed && g.completedAt) {
       const d = new Date(g.completedAt);
       if(d >= start && d <= end) goalsDone++;
-    } else if(g.completed && !g.completedAt) { // retro-compatibilità vecchi goal finiti
+    } else if(g.completed && !g.completedAt) { 
       goalsDone++;
     }
   });
@@ -895,7 +902,6 @@ function renderProgress() {
     });
   }
 
-  // Lista Storico
   const hl = document.getElementById('body-history-list'); hl.innerHTML = '';
   const rev = [...metrics].reverse();
   
@@ -965,7 +971,6 @@ function renderHistoryDay() {
   if(!dayLogs.length) hc.innerHTML = `<div class="empty-st">Nessuna azione.</div>`;
   else {
     dayLogs.forEach((item) => {
-      // Usiamo indexOf globale sull'intero state.history per identificare univocamente l'azione
       const globalIndex = state.history.indexOf(item);
       const tStr = new Date(item.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       const div = document.createElement('div'); div.className = 'sett-item';
@@ -988,7 +993,6 @@ function openEditActionTime(globalIndex) {
   const item = state.history[globalIndex];
   document.getElementById('eat-index').value = globalIndex;
   
-  // Format per input datetime-local (necessario il timezone locale)
   const d = new Date(item.ts);
   const tzoffset = (new Date()).getTimezoneOffset() * 60000;
   const localISOTime = (new Date(d - tzoffset)).toISOString().slice(0, 16);
@@ -1005,7 +1009,6 @@ function saveActionTime() {
   const newDate = new Date(val);
   state.history[idx].ts = newDate.toISOString();
   
-  // Riordina la history in ordine cronologico in caso la data sia stata spostata nel passato/futuro
   state.history.sort((a,b) => new Date(a.ts) - new Date(b.ts));
   save(); closeModal('modal-edit-action-time'); renderHistoryDay(); renderStats(); showToast('Orario aggiornato!');
 }
