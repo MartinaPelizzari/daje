@@ -42,7 +42,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--txt);overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
-input, select, textarea { font-size: 16px !important; -webkit-user-select: text !important; user-select: text !important; pointer-events: auto !important; width: 100%; box-sizing: border-box;}
+input, select, textarea { font-size: 16px !important; -webkit-user-select: text !important; user-select: text !important; pointer-events: auto !important; width: 100%; box-sizing: border-box; font-family:'Plus Jakarta Sans',sans-serif;}
 
 #app{display:flex;flex-direction:column;height:100%;max-width:430px;margin:0 auto;background:var(--bg);position:relative}
 
@@ -52,7 +52,6 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .logo-mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--indigo),var(--sky));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(99,102,241,.35)}
 .logo-mark svg{width:19px;height:19px;color:#fff;stroke-width:2.3}
 .logo-text{font-size:21px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(135deg,var(--indigo),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
 .header-right { display: flex; align-items: center; gap: 10px; }
 .score-pill{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--indigo),#818CF8);color:#fff;padding:8px 16px;border-radius:50px;font-size:15px;font-weight:700;box-shadow:0 4px 14px rgba(99,102,241,.38);user-select:none}
 .score-pill svg{width:15px;height:15px;stroke-width:2.5}
@@ -89,7 +88,6 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .nav-item span{font-size:10px;font-weight:600;}
 .nav-item.active{color:var(--indigo)}
 .nav-item.active svg{transform:scale(1.15)}
-
 .nav-item.highlight { position: relative; top: -15px; background: linear-gradient(135deg, var(--indigo), var(--sky)); color: white; width: 60px; height: 60px; flex: none; border-radius: 50%; justify-content: center; padding: 0; box-shadow: 0 6px 16px rgba(99,102,241,0.4); border: 4px solid var(--bg); align-self: flex-start; margin-top: -10px;}
 .nav-item.highlight span { display: none; }
 .nav-item.highlight svg { width: 26px; height: 26px; color: white; margin: 0; }
@@ -150,7 +148,6 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .active-badge{background:var(--green-lt);color:var(--green-dk)}
 .section-div { font-size: 11px; font-weight: 700; color: var(--txt3); text-transform: uppercase; margin: 15px 0 8px; letter-spacing: 1px; }
 
-/* FORMS E GRID PER INPUTS (RISOLVE OVERFLOW) */
 .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;}
 .form-row{display:flex;gap:9px;margin-bottom:10px}
 .fi{height:46px;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:0 14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;color:var(--txt);background:var(--bg);outline:none;transition:border-color .2s; width: 100%; box-sizing: border-box;}
@@ -204,7 +201,7 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 .photo-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; z-index: 10; display: none; }
 .photo-box.has-img img { display: block; }
 .metric-card { display: flex; align-items: center; gap: 15px; background: var(--surface); padding: 15px; border-radius: var(--r-md); border: 1px solid var(--border); margin-bottom: 10px; box-shadow: var(--sh-sm); }
-.metric-img { width: 70px; height: 70px; border-radius: 12px; background: var(--surface2); object-fit: cover; flex-shrink: 0; }
+.metric-img { width: 70px; height: 70px; border-radius: 12px; background: var(--surface2); object-fit: cover; flex-shrink: 0; cursor:pointer;}
 .metric-info { flex: 1; }
 .metric-date { font-size: 11px; color: var(--txt3); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;}
 .metric-vals { font-size: 13px; font-weight: 600; color: var(--txt); display: flex; flex-wrap: wrap; gap: 8px;}
@@ -224,12 +221,16 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* MODALS */
-.modal-ov{display:none;position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:500;align-items:flex-end;justify-content:center}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(4px);z-index:500;align-items:flex-end;justify-content:center}
 .modal-ov.show{display:flex}
 .modal-sheet{background:var(--surface);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:28px 24px calc(28px + env(safe-area-inset-bottom,0px));width:100%;max-width:430px;animation:shUp .3s cubic-bezier(.34,1.56,.64,1)}
 @keyframes shUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-ttl{font-size:18px;font-weight:800;margin-bottom:15px; display:flex; align-items:center; gap:8px;}
 .modal-ttl svg { color: var(--indigo); }
+
+/* LIGHTBOX FOTO */
+.lightbox-content { position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:20px; flex-direction:column;}
+.close-lightbox { position:absolute; top: env(safe-area-inset-top, 20px); right:20px; background:var(--surface); border:none; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--sh-md); z-index: 510;}
 </style>
 </head>
 <body>
@@ -240,6 +241,7 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
       <div class="logo-mark"><i data-lucide="zap" style="width:19px;height:19px;color:white;stroke-width:2.5"></i></div>
       <span class="logo-text">Daje</span>
     </div>
+    
     <div class="header-right">
       <div class="score-pill" id="score-display">
         <i data-lucide="star" style="width:15px;height:15px;fill:white;stroke-width:2"></i>
@@ -303,10 +305,25 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
           <div class="abs-num" id="abstinence-days">∞</div>
         </div>
         
+        <div style="background:var(--surface); padding:15px; border-radius:var(--r-md); border:1px solid var(--border); margin-bottom:15px; box-shadow:var(--sh-sm);">
+           <div class="section-div" style="margin-top:0">Periodo Statistiche</div>
+           <select class="fi" id="stats-quick-filter" onchange="applyQuickStatsFilter()" style="margin-bottom:10px;">
+              <option value="current_month">Mese Corrente</option>
+              <option value="prev_month">Mese Precedente</option>
+              <option value="current_quarter">Trimestre Corrente</option>
+              <option value="all_time">Da Sempre</option>
+              <option value="custom">Personalizzato...</option>
+           </select>
+           <div id="stats-custom-dates" class="grid-2-col" style="display:none;">
+              <input type="date" id="stats-start-date" class="fi" onchange="renderStats()"/>
+              <input type="date" id="stats-end-date" class="fi" onchange="renderStats()"/>
+           </div>
+        </div>
+        
         <div class="chart-card">
           <div class="chart-hdr">
             <div class="chart-ico indigo" style="background:var(--indigo-lt);color:var(--indigo-dk)"><i data-lucide="bar-chart-2"></i></div>
-            <span class="chart-title">Azioni (Ultimi 7 gg)</span>
+            <span class="chart-title">Azioni nel Periodo</span>
           </div>
           <div class="chart-wrap" id="chartTrendWrap">
              <canvas id="canvasTrend"></canvas>
@@ -318,15 +335,13 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
             <div class="chart-ico amber" style="background:var(--amber-lt);color:var(--amber)"><i data-lucide="pie-chart"></i></div>
             <span class="chart-title">Bilancio Globale</span>
           </div>
-          <div class="summary-grid" id="stats-summary-grid">
-             </div>
+          <div class="summary-grid" id="stats-summary-grid"></div>
         </div>
       </div>
     </div>
 
     <div class="page" id="page-progress">
       <div class="page-content">
-        
         <div class="chart-card">
           <div class="chart-hdr"><span class="chart-title">Aggiungi Misurazione</span></div>
           <div class="photo-box" id="photo-upload-box" onclick="document.getElementById('body-photo').click()">
@@ -335,17 +350,12 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
             <img id="photo-preview" src="" alt="Preview"/>
           </div>
           <input type="file" id="body-photo" accept="image/*" style="display:none" onchange="handlePhotoSelect(event)"/>
-          
           <div class="grid-2-col" id="dynamic-metric-inputs"></div>
-          
           <button class="btn-add indigo" onclick="saveBodyMetric()">Salva Nel Diario</button>
         </div>
-
         <div id="body-charts-container"></div>
-
         <div class="section-div">Diario Visivo</div>
         <div id="body-history-list"></div>
-
       </div>
     </div>
 
@@ -379,18 +389,7 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 
   <div class="sub-page" id="sub-path"><div class="sub-hdr"><button onclick="closeSubPage('sub-path')"><i data-lucide="arrow-left"></i></button><span>Gestisci Percorso</span></div><div class="sub-content"><div id="settings-path-list"></div><div style="margin-top:30px; padding-top:15px; border-top:1px solid var(--border)"><div class="modal-ttl" style="font-size:15px; margin-bottom:10px;"><i data-lucide="plus-circle" style="width:16px;"></i> Aggiungi Step</div><div class="form-row"><input class="fi" id="sn-name" placeholder="Nome (es. Premio o Punizione)"/><input class="fi pts" id="sn-pts" type="number" placeholder="Pt (es -50 o 100)"/></div><button class="btn-add indigo" onclick="addPathFromSettings()">Aggiungi</button></div></div></div>
 
-  <div class="sub-page" id="sub-metrics">
-    <div class="sub-hdr"><button onclick="closeSubPage('sub-metrics')"><i data-lucide="arrow-left"></i></button><span>Campi Misurazione</span></div>
-    <div class="sub-content">
-      <div id="settings-metric-list"></div>
-      <div style="margin-top:30px; padding-top:15px; border-top:1px solid var(--border)">
-        <div class="modal-ttl" style="font-size:15px; margin-bottom:10px;"><i data-lucide="plus-circle" style="width:16px;"></i> Nuovo Campo</div>
-        <div class="form-row"><input class="fi" id="nm-name" placeholder="Es. Polso o Massa Magra"/></div>
-        <div class="form-row"><input class="fi" id="nm-unit" placeholder="Unità (es. cm, kg, %)" style="width:100%"/></div>
-        <button class="btn-add indigo" onclick="addCustomField()">Aggiungi Misura</button>
-      </div>
-    </div>
-  </div>
+  <div class="sub-page" id="sub-metrics"><div class="sub-hdr"><button onclick="closeSubPage('sub-metrics')"><i data-lucide="arrow-left"></i></button><span>Campi Misurazione</span></div><div class="sub-content"><div id="settings-metric-list"></div><div style="margin-top:30px; padding-top:15px; border-top:1px solid var(--border)"><div class="modal-ttl" style="font-size:15px; margin-bottom:10px;"><i data-lucide="plus-circle" style="width:16px;"></i> Nuovo Campo</div><div class="form-row"><input class="fi" id="nm-name" placeholder="Es. Polso o Massa Magra"/></div><div class="form-row"><input class="fi" id="nm-unit" placeholder="Unità (es. cm, kg, %)" style="width:100%"/></div><button class="btn-add indigo" onclick="addCustomField()">Aggiungi Misura</button></div></div></div>
 
   <div class="sub-page" id="sub-system"><div class="sub-hdr"><button onclick="closeSubPage('sub-system')"><i data-lucide="arrow-left"></i></button><span>Sistema e Backup</span></div><div class="sub-content"><button class="btn-sec" onclick="exportData()"><i data-lucide="download"></i> Esporta Backup</button><button class="btn-sec" onclick="document.getElementById('import-file').click()"><i data-lucide="upload"></i> Importa Backup</button><input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display:none;"/><button class="btn-sec" style="margin-top: 15px;" onclick="forceAppUpdate()"><i data-lucide="refresh-cw"></i> Cerca Aggiornamenti PWA</button><button class="btn-danger" style="margin-top:40px;" onclick="resetData()"><i data-lucide="trash-2"></i> Reset Completo Dati</button></div></div>
 
@@ -420,22 +419,27 @@ input, select, textarea { font-size: 16px !important; -webkit-user-select: text 
 
 <div id="toast"><span id="toast-text"></span></div>
 
+<div class="modal-ov" id="modal-photo-view" style="z-index:9999; align-items:center; background:rgba(0,0,0,0.85)">
+  <div class="lightbox-content">
+    <button class="close-lightbox" onclick="closeModal('modal-photo-view')"><i data-lucide="x"></i></button>
+    <img id="fs-photo" src="" style="max-width:100%; max-height:80vh; object-fit:contain; border-radius:12px;"/>
+  </div>
+</div>
+
 <div class="modal-ov" id="modal-add-monthly"><div class="modal-sheet"><div class="modal-ttl"><i data-lucide="calendar"></i> Obiettivo Mensile</div><div class="form-row"><input class="fi" id="mg-name" placeholder="Nome obiettivo…"/><input class="fi pts" id="mg-pts" type="number" placeholder="Pts"/></div><button class="btn-add green" style="margin-bottom:10px;" onclick="addMonthlyGoal()">Salva</button><button class="btn-sec" onclick="closeModal('modal-add-monthly')">Annulla</button></div></div>
 <div class="modal-ov" id="modal-add-general"><div class="modal-sheet"><div class="modal-ttl"><i data-lucide="target"></i> Obiettivo Generale</div><div class="form-row"><input class="fi" id="gg-name" placeholder="Nome…"/><input class="fi pts" id="gg-pts" type="number" placeholder="Pts"/></div><button class="btn-add indigo" style="margin-bottom:10px;" onclick="addGeneralGoal()">Salva</button><button class="btn-sec" onclick="closeModal('modal-add-general')">Annulla</button></div></div>
 <div class="modal-ov" id="modal-add-path"><div class="modal-sheet"><div class="modal-ttl"><i data-lucide="map-pin"></i> Step Percorso (Usa '-' per i negativi)</div><div class="form-row"><input class="fi" id="pn-name" placeholder="Es. Cena Fuori o Punizione"/><input class="fi pts" id="pn-pts" type="number" placeholder="Pts"/></div><button class="btn-add sky" style="margin-bottom:10px;" onclick="addPathNode()">Aggiungi</button><button class="btn-sec" onclick="closeModal('modal-add-path')">Annulla</button></div></div>
 
+<div class="modal-ov" id="modal-edit-action-time"><div class="modal-sheet"><div class="modal-ttl"><i data-lucide="clock"></i> Modifica Data/Ora Azione</div><input type="hidden" id="eat-index"/><div class="form-row"><input type="datetime-local" id="eat-datetime" class="fi"/></div><button class="btn-add indigo" style="margin-bottom:10px;" onclick="saveActionTime()">Aggiorna</button><button class="btn-sec" onclick="closeModal('modal-edit-action-time')">Annulla</button></div></div>
 <div class="modal-ov" id="modal-edit-habit"><div class="modal-sheet"><div class="modal-ttl"><i data-lucide="edit-2"></i> Modifica Abitudine</div><input type="hidden" id="eh-id"/><div class="emoji-scroll" id="emoji-picker-edit"></div><div class="form-row"><input class="fi" id="eh-name" placeholder="Nome"/><input class="fi pts" id="eh-pts" type="number" placeholder="Pt"/></div><button class="btn-add indigo" style="margin-bottom:10px;" onclick="saveHabitEdit()">Aggiorna</button><button class="btn-sec" onclick="closeModal('modal-edit-habit')">Annulla</button></div></div>
 <div class="modal-ov" id="modal-edit-path"><div class="modal-sheet"><div class="modal-ttl"><i data-lucide="edit-2"></i> Modifica Step</div><input type="hidden" id="ep-id"/><div class="form-row"><input class="fi" id="ep-name" placeholder="Nome Step"/><input class="fi pts" id="ep-pts" type="number" placeholder="Pt"/></div><button class="btn-add sky" style="margin-bottom:10px;" onclick="savePathEdit()">Aggiorna</button><button class="btn-sec" onclick="closeModal('modal-edit-path')">Annulla</button></div></div>
 <div class="modal-ov" id="modal-edit-metric"><div class="modal-sheet"><div class="modal-ttl"><i data-lucide="edit-2"></i> Modifica Valori</div><input type="hidden" id="em-id"/><div class="grid-2-col" id="em-inputs-container"></div><button class="btn-add indigo" style="margin-bottom:10px;" onclick="saveMetricEdit()">Aggiorna Valori</button><button class="btn-sec" onclick="closeModal('modal-edit-metric')">Annulla</button></div></div>
 
 <script>
 function ci() { if(typeof lucide !== 'undefined') lucide.createIcons(); }
-const CURRENT_SK = 'daje_v9';
+const CURRENT_SK = 'daje_v10';
 
-function getRandomColor() {
-  const colors = ['#6366F1', '#10B981', '#F59E0B', '#0EA5E9', '#8B5CF6', '#EC4899', '#14B8A6'];
-  return colors[Math.floor(Math.random() * colors.length)];
-}
+function getRandomColor() { const colors = ['#6366F1', '#10B981', '#F59E0B', '#0EA5E9', '#8B5CF6', '#EC4899', '#14B8A6']; return colors[Math.floor(Math.random() * colors.length)]; }
 
 function defaultState() {
   return {
@@ -448,33 +452,21 @@ function defaultState() {
       { id: 'h5', name: 'Junk Food',   points: -3, type: 'negative', icon: '🍔' }
     ],
     monthlyGoals: [], generalGoals: [], pathLevels: [ { id: 'p1', name: 'Cena Fuori',  points: 150 } ],
-    customFields: [
-      { id: 'f_weight', name: 'Peso', unit: 'kg', color: '#6366F1' },
-      { id: 'f_hips', name: 'Fianchi', unit: 'cm', color: '#F59E0B' }
-    ],
-    bodyMetrics: [] // { id, date, photo, values: { [fieldId]: val } }
+    customFields: [ { id: 'f_weight', name: 'Peso', unit: 'kg', color: '#6366F1' }, { id: 'f_hips', name: 'Fianchi', unit: 'cm', color: '#F59E0B' } ], bodyMetrics: []
   };
 }
 
 function loadState() {
-  const keys = [CURRENT_SK, 'daje_v8', 'daje_v7', 'daje_v6', 'daje_v5'];
+  const keys = [CURRENT_SK, 'daje_v9', 'daje_v8', 'daje_v7', 'daje_v6', 'daje_v5'];
   for(let k of keys) {
     let raw = localStorage.getItem(k);
     if(raw) { 
       try { 
         let p = JSON.parse(raw); 
         if(p && p.habits) {
-          // Migrazione campi dinamici
           if(!p.customFields) {
              p.customFields = [{ id: 'f_weight', name: 'Peso', unit: 'kg', color: '#6366F1' }, { id: 'f_hips', name: 'Fianchi', unit: 'cm', color: '#F59E0B' }];
-             if(p.bodyMetrics) {
-               p.bodyMetrics.forEach(m => {
-                 m.values = {};
-                 if(m.weight) m.values['f_weight'] = m.weight;
-                 if(m.hips) m.values['f_hips'] = m.hips;
-                 delete m.weight; delete m.hips;
-               });
-             }
+             if(p.bodyMetrics) p.bodyMetrics.forEach(m => { m.values = {}; if(m.weight) m.values['f_weight'] = m.weight; if(m.hips) m.values['f_hips'] = m.hips; delete m.weight; delete m.hips; });
           }
           if(!p.bodyMetrics) p.bodyMetrics = []; 
           return p; 
@@ -491,16 +483,12 @@ function save() { localStorage.setItem(CURRENT_SK, JSON.stringify(state)); }
 /* EMOJI PICKERS */
 const EMOJIS = ['✨','🏋️','🏃','🧠','💧','🥗','📚','🧘','🔥','🚭','🚬','🍔','🍺','📱','🎮','🛋️','🤬','💸','🍕','🍷','💻','😴'];
 let selectedAddEmoji = '✨'; let selectedEditEmoji = '✨';
-
 function renderEmojiPicker(containerId, isEdit) {
   const container = document.getElementById(containerId); container.innerHTML = '';
   const currentSelection = isEdit ? selectedEditEmoji : selectedAddEmoji;
   EMOJIS.forEach(em => {
     const btn = document.createElement('div'); btn.className = 'emoji-btn' + (em === currentSelection ? ' selected' : ''); btn.innerText = em;
-    btn.onclick = () => {
-      if(isEdit) selectedEditEmoji = em; else selectedAddEmoji = em;
-      Array.from(container.children).forEach(b => b.classList.remove('selected')); btn.classList.add('selected');
-    };
+    btn.onclick = () => { if(isEdit) selectedEditEmoji = em; else selectedAddEmoji = em; Array.from(container.children).forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); };
     container.appendChild(btn);
   });
 }
@@ -543,7 +531,7 @@ function switchPage(p) {
   if (p==='habits') renderHabits();
   if (p==='goals') renderGoals();
   if (p==='path') renderPath();
-  if (p==='stats') renderStats();
+  if (p==='stats') { applyQuickStatsFilter(); } // Forza inizializzazione e render stats
   if (p==='progress') renderProgress();
   ci();
 }
@@ -589,13 +577,18 @@ function renderGoals() {
   document.getElementById('month-label').textContent = monthLabel(mOffset);
   const mc = document.getElementById('monthly-goals-list');
   const mGoals = state.monthlyGoals.filter(g => g.monthKey === monthKey(mOffset));
+  
   if(!mGoals.length) mc.innerHTML = `<div class="empty-st">Nessun obiettivo mensile.</div>`;
   else {
     mc.innerHTML = '';
     mGoals.forEach(g => {
       const div = document.createElement('div'); div.className = 'goal-item' + (g.completed ? ' completed' : '');
       div.innerHTML = `<div class="g-check ${g.completed ? 'checked' : ''}">${g.completed ? '<i data-lucide="check"></i>' : ''}</div><div class="g-info"><div class="g-name">${g.name}</div><div class="g-pts">${g.points > 0 ? '+'+g.points : g.points} pts</div></div><div class="g-actions"><button class="g-btn" title="Modifica"><i data-lucide="edit-2"></i></button><button class="g-btn del" title="Elimina"><i data-lucide="trash-2"></i></button></div>`;
-      div.querySelector('.g-check').addEventListener('click', () => { g.completed = !g.completed; updateScore(g.completed ? g.points : -g.points); save(); renderGoals(); });
+      div.querySelector('.g-check').addEventListener('click', () => { 
+        g.completed = !g.completed; 
+        if(g.completed) g.completedAt = new Date().toISOString(); else delete g.completedAt;
+        updateScore(g.completed ? g.points : -g.points); save(); renderGoals(); 
+      });
       div.querySelectorAll('.g-btn')[0].addEventListener('click', () => { const nn = prompt("Nuovo nome:", g.name); if(nn) { g.name = nn; save(); renderGoals(); } });
       div.querySelectorAll('.g-btn')[1].addEventListener('click', () => { state.monthlyGoals = state.monthlyGoals.filter(x => x.id !== g.id); save(); renderGoals(); });
       mc.appendChild(div);
@@ -613,7 +606,11 @@ function renderGoals() {
     let chkHtml = isDone ? `<div class="g-check checked"><i data-lucide="check"></i></div>` : (isLocked ? `<div class="g-check" style="cursor:not-allowed"><i data-lucide="lock" style="color:var(--txt3); width:12px"></i></div>` : `<div class="g-check"></div>`);
     let badgeHtml = isLocked ? `<span class="lock-badge">Bloccato</span>` : (isActive && !isDone ? `<span class="active-badge">Attivo</span>` : '');
     div.innerHTML = `${chkHtml}<div class="g-info"><div class="g-name">${g.name}</div><div class="g-pts">+${g.points} pts</div></div><div class="g-actions">${badgeHtml}${!isDone ? `<button class="g-btn" data-act="up"><i data-lucide="chevron-up"></i></button><button class="g-btn" data-act="down"><i data-lucide="chevron-down"></i></button>` : ''}<button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>`;
-    if(!isLocked) div.querySelector('.g-check').addEventListener('click', () => { g.completed = !g.completed; updateScore(g.completed ? g.points : -g.points); save(); renderGoals(); });
+    if(!isLocked) div.querySelector('.g-check').addEventListener('click', () => { 
+      g.completed = !g.completed; 
+      if(g.completed) g.completedAt = new Date().toISOString(); else delete g.completedAt;
+      updateScore(g.completed ? g.points : -g.points); save(); renderGoals(); 
+    });
     div.querySelectorAll('.g-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const act = btn.dataset.act;
@@ -640,6 +637,7 @@ function renderPath() {
   const c = document.getElementById('path-timeline'); c.innerHTML = '';
   let pathData = [...state.pathLevels];
   if(!pathData.some(p => p.points === 0)) pathData.push({ id: 'zero', name: 'Punto di Partenza', points: 0, isZero: true });
+  
   pathData.sort((a,b) => a.points - b.points);
 
   pathData.forEach(node => {
@@ -649,13 +647,28 @@ function renderPath() {
     else ok = true; 
 
     let clsType = node.points > 0 ? 'positive' : (node.points < 0 ? 'negative' : 'zero');
-    const d = document.createElement('div'); d.className = `path-node ${ok ? 'unlocked' : ''} ${clsType}`;
-    d.innerHTML = `<div class="pn-dot"><i data-lucide="${ok ? (node.isZero?'play':'star') : 'lock'}"></i></div><div class="pn-card" style="${node.isZero ? 'background:var(--surface2); border-color:transparent' : ''}"><div><div class="pn-name">${node.name}</div><div class="pn-pts">${node.isZero ? '0 pts' : node.points + ' pts'}</div></div>${!node.isZero ? `<div class="pn-right"><button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>` : ''}</div>`;
+    
+    const d = document.createElement('div');
+    d.className = `path-node ${ok ? 'unlocked' : ''} ${clsType}`;
+    d.innerHTML = `
+      <div class="pn-dot"><i data-lucide="${ok ? (node.isZero?'play':'star') : 'lock'}"></i></div>
+      <div class="pn-card" style="${node.isZero ? 'background:var(--surface2); border-color:transparent' : ''}">
+        <div>
+          <div class="pn-name">${node.name}</div>
+          <div class="pn-pts">${node.isZero ? '0 pts' : node.points + ' pts'}</div>
+        </div>
+        ${!node.isZero ? `<div class="pn-right"><button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>` : ''}
+      </div>
+    `;
+
     if(!node.isZero) {
       d.querySelectorAll('.g-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           if(btn.dataset.act === 'del') { state.pathLevels = state.pathLevels.filter(p => p.id !== node.id); save(); renderPath(); renderSettingsPath(); } 
-          else { document.getElementById('ep-id').value = node.id; document.getElementById('ep-name').value = node.name; document.getElementById('ep-pts').value = node.points; openModal('modal-edit-path'); }
+          else {
+            document.getElementById('ep-id').value = node.id; document.getElementById('ep-name').value = node.name; document.getElementById('ep-pts').value = node.points;
+            openModal('modal-edit-path');
+          }
         });
       });
     }
@@ -666,75 +679,130 @@ function renderPath() {
 
 function addPathNode() { const n=document.getElementById('pn-name').value.trim(); const p=parseInt(document.getElementById('pn-pts').value); if(!n||isNaN(p)) return showToast('Dati non validi!'); state.pathLevels.push({ id: uid(), name: n, points: p }); save(); document.getElementById('pn-name').value=''; document.getElementById('pn-pts').value=''; closeModal('modal-add-path'); renderPath(); }
 function addPathFromSettings() { const n=document.getElementById('sn-name').value.trim(); const p=parseInt(document.getElementById('sn-pts').value); if(!n||isNaN(p)) return showToast('Dati invalidi!'); state.pathLevels.push({ id: uid(), name: n, points: p }); save(); document.getElementById('sn-name').value=''; document.getElementById('sn-pts').value=''; renderSettingsPath(); renderPath(); showToast('Aggiunto!'); }
-function savePathEdit() { const id = document.getElementById('ep-id').value; const n = document.getElementById('ep-name').value.trim(); const p = parseInt(document.getElementById('ep-pts').value); if(!n || isNaN(p)) return showToast('Dati non validi!'); let node = state.pathLevels.find(x => x.id === id); if(node) { node.name = n; node.points = p; save(); } closeModal('modal-edit-path'); renderPath(); renderSettingsPath(); }
 
-/* 4. STATISTICHE CONTA-AZIONI & BILANCIO */
+function savePathEdit() {
+  const id = document.getElementById('ep-id').value; const n = document.getElementById('ep-name').value.trim(); const p = parseInt(document.getElementById('ep-pts').value);
+  if(!n || isNaN(p)) return showToast('Dati non validi!');
+  let node = state.pathLevels.find(x => x.id === id);
+  if(node) { node.name = n; node.points = p; save(); }
+  closeModal('modal-edit-path'); renderPath(); renderSettingsPath();
+}
+
+/* 4. STATISTICHE & FILTRI */
 let chartTrend;
+
+function applyQuickStatsFilter() {
+  const val = document.getElementById('stats-quick-filter').value;
+  const d = new Date();
+  let start, end;
+  
+  if(val === 'current_month') {
+    start = new Date(d.getFullYear(), d.getMonth(), 1);
+    end = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+  } else if(val === 'prev_month') {
+    start = new Date(d.getFullYear(), d.getMonth() - 1, 1);
+    end = new Date(d.getFullYear(), d.getMonth(), 0);
+  } else if(val === 'current_quarter') {
+    const q = Math.floor(d.getMonth() / 3);
+    start = new Date(d.getFullYear(), q * 3, 1);
+    end = new Date(d.getFullYear(), q * 3 + 3, 0);
+  } else if(val === 'all_time') {
+    start = new Date(2020, 0, 1); 
+    end = new Date();
+  } else {
+    document.getElementById('stats-custom-dates').style.display = 'grid';
+    return;
+  }
+  
+  document.getElementById('stats-custom-dates').style.display = 'none';
+  document.getElementById('stats-start-date').value = start.toISOString().split('T')[0];
+  document.getElementById('stats-end-date').value = end.toISOString().split('T')[0];
+  renderStats();
+}
+
 function renderStats() {
+  // Calcolo Globale Giorni senza fumo
   const smokeLogs = state.history.filter(h => h.habitName.toLowerCase().includes('sigarett'));
   const days = smokeLogs.length ? Math.floor((Date.now() - new Date(smokeLogs[smokeLogs.length-1].ts).getTime()) / 86400000) : null;
   document.getElementById('abstinence-days').textContent = days === null ? '∞' : days;
   
+  // Date filtro
+  const startStr = document.getElementById('stats-start-date').value;
+  const endStr = document.getElementById('stats-end-date').value;
+  if(!startStr || !endStr) return; // Aspetta che ci siano le date
+
+  const start = new Date(startStr); start.setHours(0,0,0,0);
+  const end = new Date(endStr); end.setHours(23,59,59,999);
+
+  const filteredHistory = state.history.filter(h => {
+    const d = new Date(h.ts); return d >= start && d <= end;
+  });
+
   if(chartTrend) chartTrend.destroy();
 
   const labels = []; const posData = []; const negData = [];
-  
-  for(let i=6; i>=0; i--) {
-    let d = new Date(); d.setDate(d.getDate() - i);
-    labels.push(d.toLocaleDateString('it-IT', { weekday:'short', day:'numeric' }));
-    
-    let logsDay = state.history.filter(h => new Date(h.ts).toDateString() === d.toDateString());
-    // CONTA LE AZIONI (LENGTH), NON I PUNTI
-    let posCount = logsDay.filter(h => h.points > 0).length;
-    let negCount = logsDay.filter(h => h.points < 0).length; 
-    
-    posData.push(posCount);
-    negData.push(negCount);
+  const diffDays = (end - start) / (1000*3600*24);
+  const isMonthly = diffDays > 60;
+
+  if(isMonthly) {
+    let curr = new Date(start); curr.setDate(1);
+    while(curr <= end) {
+      labels.push(curr.toLocaleDateString('it-IT', {month:'short', year:'2-digit'}));
+      let logs = filteredHistory.filter(h => { let hd = new Date(h.ts); return hd.getFullYear() === curr.getFullYear() && hd.getMonth() === curr.getMonth(); });
+      posData.push(logs.filter(h => h.points > 0).length);
+      negData.push(logs.filter(h => h.points < 0).length);
+      curr.setMonth(curr.getMonth() + 1);
+    }
+  } else {
+    let curr = new Date(start);
+    while(curr <= end) {
+      labels.push(curr.toLocaleDateString('it-IT', {day:'numeric', month:'short'}));
+      let logs = filteredHistory.filter(h => new Date(h.ts).toDateString() === curr.toDateString());
+      posData.push(logs.filter(h => h.points > 0).length);
+      negData.push(logs.filter(h => h.points < 0).length);
+      curr.setDate(curr.getDate() + 1);
+    }
   }
 
   chartTrend = new Chart(document.getElementById('canvasTrend').getContext('2d'), {
     type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [
-        { label: 'Azioni Positive', data: posData, backgroundColor: '#10B981', borderRadius: 4 },
-        { label: 'Azioni Negative', data: negData, backgroundColor: '#F43F5E', borderRadius: 4 }
-      ]
-    },
-    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { position: 'bottom' } } }
+    data: { labels: labels, datasets: [ { label: 'Azioni Sane', data: posData, backgroundColor: '#10B981', borderRadius: 4 }, { label: 'Vizi', data: negData, backgroundColor: '#F43F5E', borderRadius: 4 } ] },
+    options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: false }, y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { position: 'bottom' } } }
   });
 
-  // BILANCIO GLOBALE
-  const totalPos = state.history.filter(h => h.points > 0).length;
-  const totalNeg = state.history.filter(h => h.points < 0).length;
+  // BILANCIO GLOBALE (Filtrato per Data)
+  const totalPos = filteredHistory.filter(h => h.points > 0).length;
+  const totalNeg = filteredHistory.filter(h => h.points < 0).length;
   const totalActions = totalPos + totalNeg;
   const successRate = totalActions === 0 ? 0 : Math.round((totalPos / totalActions) * 100);
   
-  const goalsDone = state.monthlyGoals.filter(g=>g.completed).length + state.generalGoals.filter(g=>g.completed).length;
+  let goalsDone = 0;
+  state.monthlyGoals.concat(state.generalGoals).forEach(g => {
+    if(g.completed && g.completedAt) {
+      const d = new Date(g.completedAt);
+      if(d >= start && d <= end) goalsDone++;
+    } else if(g.completed && !g.completedAt) { // retro-compatibilità vecchi goal finiti
+      goalsDone++;
+    }
+  });
 
   document.getElementById('stats-summary-grid').innerHTML = `
-    <div class="sum-box">
-      <div class="sum-val" style="color:var(--indigo)">${successRate}%</div>
-      <div class="sum-lbl">Tasso Positività</div>
-    </div>
-    <div class="sum-box">
-      <div class="sum-val" style="color:var(--green)">${totalPos}</div>
-      <div class="sum-lbl">Azioni Sane</div>
-    </div>
-    <div class="sum-box">
-      <div class="sum-val" style="color:var(--red)">${totalNeg}</div>
-      <div class="sum-lbl">Vizi Ceduti</div>
-    </div>
-    <div class="sum-box">
-      <div class="sum-val" style="color:var(--amber)">${goalsDone}</div>
-      <div class="sum-lbl">Obiettivi Finiti</div>
-    </div>
+    <div class="sum-box"><div class="sum-val" style="color:var(--indigo)">${successRate}%</div><div class="sum-lbl">Tasso Positività</div></div>
+    <div class="sum-box"><div class="sum-val" style="color:var(--green)">${totalPos}</div><div class="sum-lbl">Azioni Sane</div></div>
+    <div class="sum-box"><div class="sum-val" style="color:var(--red)">${totalNeg}</div><div class="sum-lbl">Vizi Ceduti</div></div>
+    <div class="sum-box"><div class="sum-val" style="color:var(--amber)">${goalsDone}</div><div class="sum-lbl">Obiettivi Finiti</div></div>
   `;
 }
+
 
 /* 5. PROGRESSI FISICI (BODY TRACKING DINAMICO) */
 let bodyChartInstances = [];
 let currentPhotoBase64 = "";
+
+function viewPhoto(b64) {
+  document.getElementById('fs-photo').src = b64;
+  openModal('modal-photo-view');
+}
 
 function handlePhotoSelect(event) {
   const file = event.target.files[0]; if(!file) return;
@@ -765,13 +833,9 @@ function renderMetricInputs() {
 function saveBodyMetric() {
   let values = {};
   let hasData = false;
-  
   document.querySelectorAll('.metric-val-input').forEach(input => {
     const val = parseFloat(input.value);
-    if(!isNaN(val)) {
-      values[input.dataset.id] = val;
-      hasData = true;
-    }
+    if(!isNaN(val)) { values[input.dataset.id] = val; hasData = true; }
   });
 
   if(!hasData && !currentPhotoBase64) return showToast('Inserisci almeno un dato o foto!');
@@ -785,7 +849,7 @@ function saveBodyMetric() {
 }
 
 function renderProgress() {
-  renderMetricInputs(); // Ricarica gli input nel caso ci siano campi nuovi
+  renderMetricInputs(); 
   
   bodyChartInstances.forEach(c => c.destroy());
   bodyChartInstances = [];
@@ -795,7 +859,6 @@ function renderProgress() {
   const metrics = [...state.bodyMetrics].sort((a,b) => new Date(a.date) - new Date(b.date));
   const labels = metrics.map(m => new Date(m.date).toLocaleDateString('it-IT',{month:'short', day:'numeric'}));
 
-  // Raggruppa i campi per unità di misura
   const units = [...new Set(state.customFields.map(f => f.unit))];
 
   if(metrics.length > 0) {
@@ -805,24 +868,19 @@ function renderProgress() {
         return {
           label: `${field.name} (${field.unit})`,
           data: metrics.map(m => m.values && m.values[field.id] !== undefined ? m.values[field.id] : null),
-          borderColor: field.color,
-          tension: 0.3, spanGaps: true, pointBackgroundColor: field.color
+          borderColor: field.color, tension: 0.3, spanGaps: true, pointBackgroundColor: field.color
         };
       });
 
-      // Filtra i dataset vuoti per non mostrare linee morte
       const validDatasets = datasets.filter(ds => ds.data.some(val => val !== null));
-      
       if(validDatasets.length > 0) {
         const canvasId = `canvas-body-${idx}`;
         chartsContainer.innerHTML += `<div class="chart-card"><div class="chart-hdr"><span class="chart-title">Andamento (${unit})</span></div><div class="chart-wrap" style="height: 180px;"><canvas id="${canvasId}"></canvas></div></div>`;
       }
     });
 
-    // Istanzia i grafici dopo aver iniettato i canvas
     units.forEach((unit, idx) => {
-      const canvasId = `canvas-body-${idx}`;
-      const canvasEl = document.getElementById(canvasId);
+      const canvasEl = document.getElementById(`canvas-body-${idx}`);
       if(canvasEl) {
         const fieldsForUnit = state.customFields.filter(f => f.unit === unit);
         const datasets = fieldsForUnit.map(field => ({
@@ -831,9 +889,7 @@ function renderProgress() {
             borderColor: field.color, tension: 0.3, spanGaps: true, pointBackgroundColor: field.color
         })).filter(ds => ds.data.some(val => val !== null));
 
-        const chart = new Chart(canvasEl.getContext('2d'), {
-          type: 'line', data: { labels: labels, datasets: datasets }, options: { responsive: true, maintainAspectRatio: false }
-        });
+        const chart = new Chart(canvasEl.getContext('2d'), { type: 'line', data: { labels: labels, datasets: datasets }, options: { responsive: true, maintainAspectRatio: false } });
         bodyChartInstances.push(chart);
       }
     });
@@ -848,9 +904,8 @@ function renderProgress() {
   rev.forEach(m => {
     const d = new Date(m.date).toLocaleDateString();
     const div = document.createElement('div'); div.className = 'metric-card';
-    let imgHtml = m.photo ? `<img class="metric-img" src="${m.photo}"/>` : `<div class="metric-img" style="display:flex;align-items:center;justify-content:center"><i data-lucide="image-off" style="color:var(--txt3)"></i></div>`;
+    let imgHtml = m.photo ? `<img class="metric-img" src="${m.photo}" onclick="viewPhoto('${m.photo}')"/>` : `<div class="metric-img" style="display:flex;align-items:center;justify-content:center"><i data-lucide="image-off" style="color:var(--txt3)"></i></div>`;
     
-    // Genera le "pillole" con i valori in base ai campi esistenti
     let valsHtml = '';
     if(m.values) {
       state.customFields.forEach(f => {
@@ -874,11 +929,9 @@ function renderProgress() {
 function deleteMetric(id) { state.bodyMetrics = state.bodyMetrics.filter(m => m.id !== id); save(); renderProgress(); }
 
 function openEditMetric(id) {
-  const m = state.bodyMetrics.find(x => x.id === id);
-  if(!m) return;
+  const m = state.bodyMetrics.find(x => x.id === id); if(!m) return;
   document.getElementById('em-id').value = id;
   const container = document.getElementById('em-inputs-container'); container.innerHTML = '';
-  
   state.customFields.forEach(f => {
     const val = m.values && m.values[f.id] !== undefined ? m.values[f.id] : '';
     container.innerHTML += `<input class="fi em-val-input" data-id="${f.id}" type="number" step="0.1" placeholder="${f.name} (${f.unit})" value="${val}"/>`;
@@ -887,23 +940,17 @@ function openEditMetric(id) {
 }
 
 function saveMetricEdit() {
-  const id = document.getElementById('em-id').value;
-  let m = state.bodyMetrics.find(x => x.id === id);
-  if(!m) return;
+  const id = document.getElementById('em-id').value; let m = state.bodyMetrics.find(x => x.id === id); if(!m) return;
   if(!m.values) m.values = {};
-  
   document.querySelectorAll('.em-val-input').forEach(input => {
     const val = parseFloat(input.value);
-    if(!isNaN(val)) m.values[input.dataset.id] = val;
-    else delete m.values[input.dataset.id]; // Rimuovi se lasciato vuoto
+    if(!isNaN(val)) m.values[input.dataset.id] = val; else delete m.values[input.dataset.id]; 
   });
   save(); closeModal('modal-edit-metric'); renderProgress(); showToast('Aggiornato!');
 }
 
 
-/* 6. SOTTO-PAGINE IMPOSTAZIONI */
-
-// 6.1 CRONOLOGIA GIORNALIERA
+/* 6. SOTTO-PAGINE IMPOSTAZIONI E CRONOLOGIA AZIONI */
 let historyOffset = 0;
 function changeHistoryDay(dir) { historyOffset += dir; if(historyOffset > 0) historyOffset = 0; renderHistoryDay(); }
 
@@ -918,32 +965,62 @@ function renderHistoryDay() {
   if(!dayLogs.length) hc.innerHTML = `<div class="empty-st">Nessuna azione.</div>`;
   else {
     dayLogs.forEach((item) => {
+      // Usiamo indexOf globale sull'intero state.history per identificare univocamente l'azione
+      const globalIndex = state.history.indexOf(item);
       const tStr = new Date(item.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       const div = document.createElement('div'); div.className = 'sett-item';
-      div.innerHTML = `<div><strong>${item.habitName}</strong> <span class="badge ${item.points>=0?'pos':'neg'}">${item.points>=0?'+':''}${item.points}</span><div style="font-size:10px; color:var(--txt3); margin-top:3px">${tStr}</div></div><button class="g-btn del" title="Annulla"><i data-lucide="rotate-ccw"></i></button>`;
-      div.querySelector('.g-btn').addEventListener('click', () => { state.history.splice(state.history.indexOf(item), 1); updateScore(-item.points); save(); renderHistoryDay(); showToast('Azione annullata'); });
+      div.innerHTML = `
+        <div><strong>${item.habitName}</strong> <span class="badge ${item.points>=0?'pos':'neg'}">${item.points>=0?'+':''}${item.points}</span><div style="font-size:10px; color:var(--txt3); margin-top:3px">${tStr}</div></div>
+        <div style="display:flex;gap:5px;">
+           <button class="g-btn" title="Modifica Orario" onclick="openEditActionTime(${globalIndex})"><i data-lucide="edit-2"></i></button>
+           <button class="g-btn del" title="Annulla Azione"><i data-lucide="rotate-ccw"></i></button>
+        </div>`;
+      div.querySelector('.del').addEventListener('click', () => { 
+        state.history.splice(globalIndex, 1); updateScore(-item.points); save(); renderHistoryDay(); renderStats(); showToast('Azione annullata'); 
+      });
       hc.appendChild(div);
     });
   }
   ci();
 }
 
-// 6.2 ABITUDINI
+function openEditActionTime(globalIndex) {
+  const item = state.history[globalIndex];
+  document.getElementById('eat-index').value = globalIndex;
+  
+  // Format per input datetime-local (necessario il timezone locale)
+  const d = new Date(item.ts);
+  const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+  const localISOTime = (new Date(d - tzoffset)).toISOString().slice(0, 16);
+  
+  document.getElementById('eat-datetime').value = localISOTime;
+  openModal('modal-edit-action-time');
+}
+
+function saveActionTime() {
+  const idx = document.getElementById('eat-index').value;
+  const val = document.getElementById('eat-datetime').value;
+  if(!val) return showToast('Data non valida');
+  
+  const newDate = new Date(val);
+  state.history[idx].ts = newDate.toISOString();
+  
+  // Riordina la history in ordine cronologico in caso la data sia stata spostata nel passato/futuro
+  state.history.sort((a,b) => new Date(a.ts) - new Date(b.ts));
+  save(); closeModal('modal-edit-action-time'); renderHistoryDay(); renderStats(); showToast('Orario aggiornato!');
+}
+
+/* Gestione Abitudini in Settings */
 function renderSettingsHabits() {
   const popList = (type, cId) => {
-    const c = document.getElementById(cId); c.innerHTML='';
-    const list = state.habits.filter(h => h.type===type);
+    const c = document.getElementById(cId); c.innerHTML=''; const list = state.habits.filter(h => h.type===type);
     if(!list.length) c.innerHTML = '<div class="empty-st" style="padding:10px 0">Vuoto</div>';
     list.forEach(h => {
       const div = document.createElement('div'); div.className = 'sett-item';
       div.innerHTML = `<div><strong>${h.icon || '✨'} ${h.name}</strong> <span class="badge ${type==='positive'?'pos':'neg'}">${h.points}</span></div><div style="display:flex;gap:5px;"><button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>`;
       div.querySelectorAll('.g-btn').forEach(b => b.addEventListener('click', () => {
         if(b.dataset.act==='del') { state.habits = state.habits.filter(x=>x.id!==h.id); save(); renderSettingsHabits(); }
-        else {
-          document.getElementById('eh-id').value = h.id; document.getElementById('eh-name').value = h.name; document.getElementById('eh-pts').value = h.points;
-          selectedEditEmoji = h.icon || '✨'; renderEmojiPicker('emoji-picker-edit', true);
-          openModal('modal-edit-habit');
-        }
+        else { document.getElementById('eh-id').value = h.id; document.getElementById('eh-name').value = h.name; document.getElementById('eh-pts').value = h.points; selectedEditEmoji = h.icon || '✨'; renderEmojiPicker('emoji-picker-edit', true); openModal('modal-edit-habit'); }
       }));
       c.appendChild(div);
     });
@@ -952,48 +1029,25 @@ function renderSettingsHabits() {
   ci();
 }
 
-function saveHabitEdit() {
-  const id = document.getElementById('eh-id').value; const n = document.getElementById('eh-name').value.trim(); const p = parseInt(document.getElementById('eh-pts').value);
-  if(!n || isNaN(p)) return showToast('Dati non validi!');
-  let h = state.habits.find(x => x.id === id);
-  if(h) { h.name = n; h.points = p; h.type = p >= 0 ? 'positive' : 'negative'; h.icon = selectedEditEmoji; save(); }
-  closeModal('modal-edit-habit'); renderSettingsHabits(); showToast('Aggiornato!');
-}
+function saveHabitEdit() { const id = document.getElementById('eh-id').value; const n = document.getElementById('eh-name').value.trim(); const p = parseInt(document.getElementById('eh-pts').value); if(!n || isNaN(p)) return showToast('Dati non validi!'); let h = state.habits.find(x => x.id === id); if(h) { h.name = n; h.points = p; h.type = p >= 0 ? 'positive' : 'negative'; h.icon = selectedEditEmoji; save(); } closeModal('modal-edit-habit'); renderSettingsHabits(); showToast('Aggiornato!'); }
+function addHabitFromSettings() { const name = document.getElementById('nh-name').value.trim(); const pts = parseInt(document.getElementById('nh-pts').value); if(!name || isNaN(pts)) return showToast('Dati non validi!'); state.habits.push({ id: uid(), name, points: pts, type: pts >= 0 ? 'positive' : 'negative', icon: selectedAddEmoji }); save(); document.getElementById('nh-name').value=''; document.getElementById('nh-pts').value=''; renderSettingsHabits(); showToast('Salvato!'); }
 
-function addHabitFromSettings() {
-  const name = document.getElementById('nh-name').value.trim(); const pts = parseInt(document.getElementById('nh-pts').value);
-  if(!name || isNaN(pts)) return showToast('Dati non validi!');
-  state.habits.push({ id: uid(), name, points: pts, type: pts >= 0 ? 'positive' : 'negative', icon: selectedAddEmoji });
-  save(); document.getElementById('nh-name').value=''; document.getElementById('nh-pts').value=''; renderSettingsHabits(); showToast('Salvato!');
-}
-
-// 6.3 PERCORSO
+/* Gestione Percorso in Settings */
 function renderSettingsPath() {
-  const pc = document.getElementById('settings-path-list'); pc.innerHTML = '';
-  const sorted = [...state.pathLevels].sort((a,b)=>a.points-b.points);
+  const pc = document.getElementById('settings-path-list'); pc.innerHTML = ''; const sorted = [...state.pathLevels].sort((a,b)=>a.points-b.points);
   if(!sorted.length) pc.innerHTML = '<div class="empty-st" style="padding:10px 0">Vuoto</div>';
   sorted.forEach(p => {
     const div = document.createElement('div'); div.className = 'sett-item';
     div.innerHTML = `<div><strong>${p.name}</strong> <span class="badge ${p.points>0?'pos':(p.points<0?'neg':'neu')}">${p.points}</span></div><div style="display:flex;gap:5px;"><button class="g-btn" data-act="edit"><i data-lucide="edit-2"></i></button><button class="g-btn del" data-act="del"><i data-lucide="trash-2"></i></button></div>`;
-    div.querySelectorAll('.g-btn').forEach(b => b.addEventListener('click', () => {
-      if(b.dataset.act==='del') { state.pathLevels = state.pathLevels.filter(x=>x.id!==p.id); save(); renderSettingsPath(); }
-      else { document.getElementById('ep-id').value = p.id; document.getElementById('ep-name').value = p.name; document.getElementById('ep-pts').value = p.points; openModal('modal-edit-path'); }
-    }));
-    pc.appendChild(div);
-  });
-  ci();
+    div.querySelectorAll('.g-btn').forEach(b => b.addEventListener('click', () => { if(b.dataset.act==='del') { state.pathLevels = state.pathLevels.filter(x=>x.id!==p.id); save(); renderSettingsPath(); } else { document.getElementById('ep-id').value = p.id; document.getElementById('ep-name').value = p.name; document.getElementById('ep-pts').value = p.points; openModal('modal-edit-path'); } })); pc.appendChild(div);
+  }); ci();
 }
 
-// 6.4 MISURE FISICHE
+/* Gestione Campi Misure Fisiche */
 function renderSettingsMetrics() {
   const c = document.getElementById('settings-metric-list'); c.innerHTML = '';
   if(!state.customFields.length) c.innerHTML = '<div class="empty-st">Nessun campo.</div>';
-  state.customFields.forEach(f => {
-    const div = document.createElement('div'); div.className = 'sett-item';
-    div.innerHTML = `<div><strong style="color:${f.color}">${f.name}</strong> <span class="badge neu">${f.unit}</span></div><button class="g-btn del" onclick="deleteCustomField('${f.id}')"><i data-lucide="trash-2"></i></button>`;
-    c.appendChild(div);
-  });
-  ci();
+  state.customFields.forEach(f => { const div = document.createElement('div'); div.className = 'sett-item'; div.innerHTML = `<div><strong style="color:${f.color}">${f.name}</strong> <span class="badge neu">${f.unit}</span></div><button class="g-btn del" onclick="deleteCustomField('${f.id}')"><i data-lucide="trash-2"></i></button>`; c.appendChild(div); }); ci();
 }
 
 function addCustomField() {
@@ -1004,20 +1058,11 @@ function addCustomField() {
 }
 
 function deleteCustomField(id) {
-  if(confirm("Eliminando il campo, eliminerai anche i vecchi valori salvati. Sicuro?")) {
-    state.customFields = state.customFields.filter(f => f.id !== id);
-    state.bodyMetrics.forEach(m => { if(m.values) delete m.values[id]; });
-    save(); renderSettingsMetrics();
-  }
+  if(confirm("Eliminando il campo, eliminerai anche i vecchi valori salvati. Sicuro?")) { state.customFields = state.customFields.filter(f => f.id !== id); state.bodyMetrics.forEach(m => { if(m.values) delete m.values[id]; }); save(); renderSettingsMetrics(); }
 }
 
 /* SISTEMA E AGGIORNAMENTO FORZATO */
-function forceAppUpdate() {
-  showToast('Cerco aggiornamenti...');
-  if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(function(regs) { for(let r of regs) r.unregister(); });
-  if ('caches' in window) caches.keys().then(function(names) { for (let n of names) caches.delete(n); });
-  setTimeout(() => { window.location.href = window.location.href.split('?')[0] + "?update=" + new Date().getTime(); }, 1000);
-}
+function forceAppUpdate() { showToast('Cerco aggiornamenti...'); if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(function(regs) { for(let r of regs) r.unregister(); }); if ('caches' in window) caches.keys().then(function(names) { for (let n of names) caches.delete(n); }); setTimeout(() => { window.location.href = window.location.href.split('?')[0] + "?update=" + new Date().getTime(); }, 1000); }
 function exportData() { const blob = new Blob([JSON.stringify(state)], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = "daje_backup.json"; a.click(); URL.revokeObjectURL(url); }
 function importData(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = function(evt) { try { const imp = JSON.parse(evt.target.result); if(imp.habits) { state = imp; save(); document.getElementById('score-value').textContent = state.score; showToast('Dati importati!'); setTimeout(()=>location.reload(), 1000); } } catch(err) { showToast('File non valido'); } }; reader.readAsText(file); }
 function resetData() { if(confirm('Vuoi davvero cancellare TUTTI i tuoi progressi?')) { state = defaultState(); save(); location.reload(); } }
